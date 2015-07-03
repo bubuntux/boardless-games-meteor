@@ -1,0 +1,6 @@
+# Meteor
+.meteor/local
+
+# IDEA
+.idea
+*.iml
