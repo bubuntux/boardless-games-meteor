@@ -8,3 +8,11 @@ meteor-platform
 autopublish
 insecure
 coffeescript
+twbs:bootstrap
+ian:accounts-ui-bootstrap-3
+accounts-facebook
+accounts-google
+accounts-twitter
+accounts-github
+random
+iron:router
