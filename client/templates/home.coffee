@@ -15,13 +15,11 @@ Template.home.events #TODO move logic to server
     Games.insert
       _id: gameKey
       players: [userId]
-    Router.go 'game',
-      _id: gameKey
+    Router.go 'game', _id: gameKey
 
   'click .btn-join': (event, template) ->
     event.preventDefault()
     gameKey = template.$('[name=gameKey]').val()
     if not gameKey
       throw new Meteor.Error 500, 'Invalid game'
-    Router.go 'game',
-      _id: gameKey
+    Router.go 'game', _id: gameKey
