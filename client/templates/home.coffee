@@ -1,5 +1,5 @@
-Template.home.events
-  'click .btn-create:not(.disabled)': (event, template) -> #TODO move logic to server
+Template.home.events #TODO move logic to server
+  'click .btn-create:not(.disabled)': (event, template) ->
     event.preventDefault()
     userId = Meteor.userId()
     if not userId
@@ -20,3 +20,8 @@ Template.home.events
 
   'click .btn-join': (event, template) ->
     event.preventDefault()
+    gameKey = template.$('[name=gameKey]').val()
+    if not gameKey
+      throw new Meteor.Error 500, 'Invalid game'
+    Router.go 'game',
+      _id: gameKey
