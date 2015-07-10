@@ -1,0 +1,8 @@
+template(name="home")
+  h1 The Traitor
+  +loginButtons
+  input.form-control(type="text" name="gameKey" pattern=".{3,}")
+  br
+  button.btn.btn-lg.btn-primary.btn-create(class="{{#unless currentUser}}disabled{{/unless}}") Create
+  | -
+  button.btn.btn-lg.btn-primary.btn-join Join

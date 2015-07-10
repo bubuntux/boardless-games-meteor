@@ -1,0 +1,12 @@
+template(name="player")
+  .col-xs-4.btn.btn-default.btn-player
+    if leader
+      span.glyphicon.glyphicon-star
+    if mission
+      span.glyphicon.glyphicon-chevron-up
+    if showIdentity
+      if infiltrator
+        span.glyphicon.glyphicon-sunglasses
+      else
+        span.glyphicon.glyphicon-user
+    | #{name}

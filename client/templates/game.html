@@ -1,7 +1,7 @@
 <template name="game">
-  <h1>Wowww!</h1>
-    {{_id}}
-    {{players}}
+    {{#if canConnect}}
+      <div class="btn btn-default btn-connect">Connect</div>
+    {{/if}}
 
   <div class="container-fluid text-center">
     <!--<div class="row bg-warning">
@@ -21,16 +21,6 @@
     <div class="row">
         {{#each players}}
             {{>player}}
-          <div class="col-xs-4 btn btn-default"
-               ng-click="send_mission(player.user_id)"
-               ng-class="{'disabled': !can_select_players, 'btn-success': player.vote == true, 'btn-danger' : player.vote == false}">
-            <span class="glyphicon" ng-class="{'glyphicon-star': player.leader}"></span>
-            <span class="glyphicon" ng-class="{'glyphicon-chevron-up': player.mission}"></span>
-                    <span class="glyphicon"
-                          ng-class="{'glyphicon-user': spy && !player.spy,'glyphicon-sunglasses': spy && player.spy}"></span>
-            {$ player.name $}
-            <span class="glyphicon" ng-class="{'glyphicon-time': !player.connected}"></span>
-          </div>
         {{/each}}
     </div>
     <div class="row">
