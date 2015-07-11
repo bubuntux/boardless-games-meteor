@@ -1,0 +1,39 @@
+template(name="game")
+  //
+    {{#if canConnect}}
+      <div class="btn btn-default btn-connect">Connect</div>
+    {{/if}}
+
+  .container-fluid.text-center
+    //
+      <!--<div class="row bg-warning">
+          <div class="col-xs-2" ng-repeat="index in [0,1,2,3,4]"
+               ng-class="{'bg-success': rounds[index] == true,'bg-danger': rounds[index] == false}">
+              {$ player_per_mission(index) $}
+          </div>
+          <div class="col-xs-2 btn bg-info" ng-click="revel_spy()">?</div>
+      </div>
+      <div class="row">
+          <div class="col-xs-2" ng-repeat="index in [1,2,3,4,5]"
+               ng-class="{'bg-danger': rejected_missions >= index}">
+              <p/>
+          </div>
+      </div>
+      -->
+    .row
+      each players
+        +player
+    .row
+      .col-xs-6.btn.btn-default
+        Approved
+        //
+           ng-class="{'btn-success': me().secret_vote == true,'disabled': !can_vote}"
+           ng-click="send_vote(true)">
+
+      .ol-xs-6 btn btn-default
+        Decline
+        //
+           ng-class="{'btn-danger': me().secret_vote == false, 'disabled': !can_vote}"
+           ng-click="send_vote(false)">
+
+  #{game._id}
