@@ -1,8 +1,10 @@
 template(name="home")
-  h1 The Traitor
-  +loginButtons
-  input.form-control(type="text" name="gameKey" pattern=".{3,}")
-  br
-  button.btn.btn-lg.btn-primary.btn-create(class="{{#unless currentUser}}disabled{{/unless}}") Create
-  | -
-  button.btn.btn-lg.btn-primary.btn-join Join
+  h1.text-center The Traitor
+  .login.container.text-center
+    +loginButtons
+  .container.text-center
+    .row
+      input.form-control(type="text" name="gameKey")
+    .row
+      button.col-xs-offset-1.col-xs-5.btn.btn-lg.btn-primary.btn-create(class="{{#unless currentUser}}disabled{{/unless}}") Create
+      button.col-xs-5.btn.btn-lg.btn-primary.btn-join Join
