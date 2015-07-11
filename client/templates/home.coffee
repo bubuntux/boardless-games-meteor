@@ -9,8 +9,7 @@ Template.home.events #TODO move logic to server
       gameKey = Random.id 5 #TODO size in base of games
     if Games.find({_id: gameKey}, {limit: 1}).count() != 0
       throw new Meteor.Error 500, 'Game already created'
-    Players.insert
-      _id: userId
+    Players.upsert userId, $set:
       name: Meteor.user().profile.name
     Games.insert
       _id: gameKey
