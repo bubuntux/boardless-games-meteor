@@ -6,7 +6,6 @@
 
 meteor-platform
 autopublish
-insecure
 coffeescript
 ian:accounts-ui-bootstrap-3
 accounts-facebook
