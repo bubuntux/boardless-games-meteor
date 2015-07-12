@@ -5,14 +5,11 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-coffeescript
-ian:accounts-ui-bootstrap-3
-accounts-facebook
-accounts-google
-accounts-twitter
-accounts-github
-random
 iron:router
+coffeescript
 mquandalle:jade
+random
+accounts-password
+accounts-facebook
 twbs:bootstrap
+ian:accounts-ui-bootstrap-3
