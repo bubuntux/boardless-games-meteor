@@ -6,6 +6,5 @@ template(name="home")
     .row
       input.form-control(type="text" name="gameKey")
     .row
-      //-TODO improve disabled
-      button.col-xs-offset-1.col-xs-5.btn.btn-lg.btn-primary.btn-create(class="{{#unless currentUser}}disabled{{/unless}}") Create
+      button.col-xs-offset-1.col-xs-5.btn.btn-lg.btn-primary.btn-create(class="#{btnCreateClass}") Create
       button.col-xs-5.btn.btn-lg.btn-primary.btn-join Join
