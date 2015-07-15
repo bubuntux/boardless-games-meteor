@@ -19,13 +19,16 @@ Template.join.helpers
       'Start Game'
 
   showBtn: ->
-    me = findMe(@players)
-    if not me
-      true
-    else if me.gameMaster
-      true
-    else
+    if not Meteor.user()
       false
+    else
+      me = findMe(@players)
+      if not me
+        true
+      else if me.gameMaster
+        true
+      else
+        false
 
 Template.join.events
   'click .btn:not(.disabled)': (event, template) ->
