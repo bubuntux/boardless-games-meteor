@@ -9,8 +9,6 @@ template(name="join")
       if imGameMaster
         .col-xs-offset-3.col-xs-6.btn.btn-default.btn-start(class="#{btnStartClass}")
           | Start Game
-        +with game
-          | #{_id}
       else if canJoin
         .col-xs-offset-3.col-xs-6.btn.btn-default.btn-join
           | Join Game

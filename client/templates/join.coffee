@@ -18,8 +18,8 @@ Template.join.helpers
     @players.length <= @game?.maxPlayers and not findMe(@players)
 
 Template.join.events
-  'click .btn-join:not(.disabled)': (event, template) ->
+  'click .btn-join:not(.disabled)': (event) ->
     event.preventDefault()
-    Meteor.call 'joinGame', @game._id, (error, result) ->
+    Meteor.call 'joinGame', @game._id, (error) ->
       if error
         throw error
