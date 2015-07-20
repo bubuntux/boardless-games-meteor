@@ -1,14 +1,19 @@
 template(name="join")
   .container-fluid.text-center
     .row
-      +each players
-        +player
+      each players
+        .col-xs-3(class="#{playerClass}")
+          | #{name}
+
     .row
-      +if showBtn
-        .col-xs-offset-3.col-xs-6.btn.btn-default(class="#{btnClass}")
-          | #{btnText}
-      +else
+      if imGameMaster
+        .col-xs-offset-3.col-xs-6.btn.btn-default.btn-start(class="#{btnStartClass}")
+          | Start Game
+        +with game
+          | #{_id}
+      else if canJoin
+        .col-xs-offset-3.col-xs-6.btn.btn-default.btn-join
+          | Join Game
+      else
         .col-xs-offset-3.col-xs-6
           | Waiting for other players
-    +with game
-      | #{_id}

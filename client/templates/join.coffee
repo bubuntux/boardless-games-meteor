@@ -1,37 +1,24 @@
 findMe = (players) ->
-  if Meteor.userId()
-    _.find players, (player) -> player._id is Meteor.userId()
+  _.find players, (player) -> player._id is Meteor.userId()
 
 Template.join.helpers
-  btnClass: ->
-    me = findMe(@players)
-    if me
-      if not me.gameMaster
-        'disabled'
-      else if @game.minPlayers > @players.length or @players.length > @game.maxPlayers
-        'disabled'
+  playerClass: ->
+    if @gameMaster
+      'text-success'
 
-  btnText: ->
+  imGameMaster: ->
     me = findMe(@players)
-    if not me
-      'Join'
-    else if me.gameMaster
-      'Start Game'
+    me?.gameMaster
 
-  showBtn: ->
-    if not Meteor.user()
-      false
-    else
-      me = findMe(@players)
-      if not me
-        true
-      else if me.gameMaster
-        true
-      else
-        false
+  btnStartClass: ->
+    if @game.minPlayers > @players.length or @players.length > @game.maxPlayers
+      'disabled'
+
+  canJoin: ->
+    @players.length <= @game?.maxPlayers and not findMe(@players)
 
 Template.join.events
-  'click .btn:not(.disabled)': (event, template) ->
+  'click .btn-join:not(.disabled)': (event, template) ->
     event.preventDefault()
     Meteor.call 'joinGame', @game._id, (error, result) ->
       if error
