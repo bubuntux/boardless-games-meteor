@@ -17,3 +17,7 @@ Router.map ->
     data: ->
       game: Games.findOne()
       players: Players.find().fetch()
+
+  @route 'game',
+    path: '/game/:_id'
+    render: 'game'

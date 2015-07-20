@@ -1,4 +1,5 @@
 template(name="join")
+  +loginButtons
   .container-fluid.text-center
     .row
       each players
@@ -15,3 +16,4 @@ template(name="join")
       else
         .col-xs-offset-3.col-xs-6
           | Waiting for other players
+        #{startGame}
