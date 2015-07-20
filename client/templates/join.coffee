@@ -3,22 +3,19 @@ findMe = (players) ->
 
 Template.join.helpers
   playerClass: ->
-    if @gameMaster
-      'text-success'
+    'text-success' if @gameMaster
 
   imGameMaster: ->
-    me = findMe(@players)
-    me?.gameMaster
+    findMe(@players)?.gameMaster
 
   btnStartClass: ->
-    if @game.minPlayers > @players.length or @players.length > @game.maxPlayers
-      'disabled'
+    'disabled' if @game.minPlayers > @players.length or @players.length > @game.maxPlayers
 
   canJoin: ->
-    @players.length <= @game?.maxPlayers and not findMe(@players)
+    @players.length < @game?.maxPlayers and not findMe(@players)
 
 Template.join.events
-  'click .btn-join:not(.disabled)': (event) ->
+  'click .btn-join': (event) ->
     event.preventDefault()
     Meteor.call 'joinGame', @game._id, (error) ->
       if error
