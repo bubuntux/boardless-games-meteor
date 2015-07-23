@@ -9,7 +9,7 @@ Template.join.helpers
     findMe(@players)?.gameMaster
 
   btnStartClass: ->
-    'disabled' if @game.minPlayers > @players.length or @players.length > @game.maxPlayers
+    #'disabled' if @game.minPlayers > @players.length or @players.length > @game.maxPlayers
 
   canJoin: ->
     @players.length < @game?.maxPlayers and not findMe(@players) and Meteor.user()

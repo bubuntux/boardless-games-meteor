@@ -37,7 +37,9 @@ Meteor.methods
     gameKey = Players.findOne(_id: user._id)?.gameKey
     if not gameKey
       throw new Meteor.Error "invalid player"
-    Games.update {_id: gameKey}, {$set: {state: 1}}, (error, n) ->
+    Games.update {_id: gameKey}, $set:
+      state: Games.State.initial
+    , (error, n) ->
       if error
         throw error
       if n < 1 # TODO check

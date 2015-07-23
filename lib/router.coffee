@@ -8,16 +8,12 @@ Router.map ->
     path: '/'
     render: 'home'
 
-  @route 'join',
-    path: '/join/:_id'
-    render: 'join'
+  @route 'game',
+    path: '/game/:_id'
+    render: 'game'
     onBeforeAction: ->
       Meteor.subscribe 'game', @params._id
       @next()
     data: ->
       game: Games.findOne()
       players: Players.find().fetch()
-
-  @route 'game',
-    path: '/game/:_id'
-    render: 'game'

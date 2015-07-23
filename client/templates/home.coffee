@@ -9,14 +9,14 @@ Template.home.events
     Meteor.call 'createGame', gameKeyInput, (error, gameKey) ->
       if error
         throw error
-      Router.go 'join', _id: gameKey
+      Router.go 'game', _id: gameKey
 
   'click .btn-join:not(.disabled)': (event, template) ->
     event.preventDefault()
     gameKeyInput = template.$('.gameKeyInput').val()
     if not gameKeyInput
       throw new Meteor.Error 500, 'Invalid game'
-    Router.go 'join', _id: gameKeyInput
+    Router.go 'game', _id: gameKeyInput
 
   'keyup .gameKeyInput': (event, template) ->
     event.preventDefault()
