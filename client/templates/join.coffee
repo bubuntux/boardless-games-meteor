@@ -12,7 +12,7 @@ Template.join.helpers
     @players.length < @game?.maxPlayers and not @me and Meteor.user()
 
   startGame: ->
-    if @game?.state
+    if @game?.state?
       Router.go 'game', _id: @game._id
 
 Template.join.events
