@@ -1,3 +1,3 @@
 Template.game.helpers
   gameStarted: ->
-    game?.status != 0
+    @game?.state?
