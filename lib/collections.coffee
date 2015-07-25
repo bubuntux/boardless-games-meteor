@@ -4,9 +4,8 @@
 
 @Games = new Mongo.Collection 'games'
 @Games.State =
-  initial: 1
-  player_selection: 2
-  mission_voting: 3
-  mission: 4
-  victory: 5
-  game_over: 6
+  player_selection: 1
+  mission_voting: 2
+  mission: 3
+  victory: 4
+  game_over: 5

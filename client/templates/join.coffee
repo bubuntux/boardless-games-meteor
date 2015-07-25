@@ -1,18 +1,15 @@
-findMe = (players) ->
-  _.find players, (player) -> player._id is Meteor.userId()
-
 Template.join.helpers
   playerClass: ->
     'text-success' if @gameMaster
 
   imGameMaster: ->
-    findMe(@players)?.gameMaster
+    @me?.gameMaster
 
   btnStartClass: ->
     #'disabled' if @game.minPlayers > @players.length or @players.length > @game.maxPlayers
 
   canJoin: ->
-    @players.length < @game?.maxPlayers and not findMe(@players) and Meteor.user()
+    @players.length < @game?.maxPlayers and not @me and Meteor.user()
 
   startGame: ->
     if @game?.state

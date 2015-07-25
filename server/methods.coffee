@@ -4,7 +4,7 @@ Meteor.methods
     if not user
       throw new Meteor.Error "not-authorized"
     if not gameKey
-      gameKey = Random.id 5 #TODO size in base of games
+      gameKey = Random.id 3 #TODO size in base of games
     if Games.find({_id: gameKey}, {limit: 1}).count() != 0
       throw new Meteor.Error 'Game already created'
     name = user.profile.name
@@ -37,9 +37,10 @@ Meteor.methods
     gameKey = Players.findOne(_id: user._id)?.gameKey
     if not gameKey
       throw new Meteor.Error "invalid player"
-    Games.update {_id: gameKey}, $set:
-      state: Games.State.initial
-    , (error, n) ->
+    Games.update _id: gameKey, {
+      $set:
+        state: Games.State.player_selection
+    }, (error, n) ->
       if error
         throw error
       if n < 1 # TODO check
