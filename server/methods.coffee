@@ -9,10 +9,14 @@ Meteor.methods
       throw new Meteor.Error 'Game already created'
     Games.insert _id: gameKey
     name = user.profile.name
-    Players.upsert user._id, $set:
-      name: if name then name else user.emails[0].address # TODO improve
-      gameKey: gameKey
-      gameMaster: true
+    Players.upsert user._id, {
+      $set:
+        name: if name then name else user.emails[0].address # TODO improve
+        gameKey: gameKey
+        gameMaster: true
+      $unset: #TODO unset everything but name and gamekey
+        order: true
+    }
     gameKey
 
   joinGame: (gameKey) ->
@@ -24,9 +28,14 @@ Meteor.methods
       throw new Meteor.Error 'Game not exist'
     #TODO still can join validation
     name = user.profile.name
-    Players.upsert user._id, $set:
-      name: if name then name else user.emails[0].address # TODO improve (refactor)
-      gameKey: gameKey
+    Players.upsert user._id, {
+      $set:
+        name: if name then name else user.emails[0].address # TODO improve (refactor)
+        gameKey: gameKey
+      $unset: #TODO unset everything but name and gamekey
+        gameMaster: true
+        order: true
+    }
 
   startGame: -> # TODO elaborate
     user = Meteor.user()
