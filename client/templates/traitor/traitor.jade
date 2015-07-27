@@ -1,10 +1,11 @@
 template(name="traitor")
   .container-fluid.text-center
     .row
-      +each players
+      each players
         +player
     .row
-      .col-xs-6.btn.btn-default
-        | Yes
-      .col-xs-6.btn.btn-default
-        | No
+      if canVote
+        .col-xs-6.btn.btn-default.btn-yes
+          | Yes
+        .col-xs-6.btn.btn-default.btn-no
+          | No
