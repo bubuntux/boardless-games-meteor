@@ -37,7 +37,7 @@ Meteor.methods
         order: true
     }
 
-  startGame: -> # TODO elaborate
+  startGame: ->
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
@@ -86,7 +86,7 @@ Meteor.methods
       $bit:
         mission:
           xor: 1
-    }, (error) ->
+    }, (error, n) ->
       if error
         throw error
       if n != 1

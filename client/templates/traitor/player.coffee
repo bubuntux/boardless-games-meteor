@@ -5,6 +5,6 @@ Template.player.helpers
       'btn btn-default btn-player' + (if @mission then ' active' else '')
 
 Template.player.events
-  'click .btn-player': (event, template) ->
+  'click .btn-player': (event) ->
     event.preventDefault()
     Meteor.call 'mission', @_id

@@ -1,9 +1,10 @@
 Template.traitor.helpers
   canVote: ->
-    switch @game.state
-      when Games.State.player_selection
-        @me.leader #todo player selected
-      when Games.State.mission
-        @me.mission
-      else
-        true
+    (@game.state is Games.State.mission_voting) or (@me.mission and @game.state is Games.State.mission)
+
+  canStartMission: ->
+    playersOnMission = _.filter(@players, (player) -> player.mission).length
+    playersOnMission is Games.Player.perRound[@players.length][@game.rounds.length]
+
+  playersPerMission: ->
+    Games.Player.perRound[@players.length][@game.rounds.length]
