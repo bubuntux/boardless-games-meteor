@@ -82,7 +82,7 @@ Meteor.methods
     leader = Players.findOne _id: user._id, leader: true
     if not leader
       throw new Meteor.Error "You are not the leader"
-    Players.update _id: playerId, {
+    Players.update {_id: playerId, gameKey: leader.gameKey}, {
       $bit:
         mission:
           xor: 1

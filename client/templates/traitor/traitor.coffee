@@ -8,3 +8,8 @@ Template.traitor.helpers
 
   playersPerMission: ->
     Games.Player.perRound[@players.length][@game.rounds.length]
+
+Template.traitor.events
+  'click .btn-strat-mission': (event) ->
+    event.preventDefault()
+    Meteor.call 'startMission'
