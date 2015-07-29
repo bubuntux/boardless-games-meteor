@@ -4,11 +4,11 @@ template(name="traitor")
       each players
         +player
     .row
-      if me.leader
+      if canVote
+        .col-xs-6.btn.btn-default.btn-yes Yes
+        .col-xs-6.btn.btn-default.btn-no No
+      else if me.leader
         if canStartMission
           .col-xs-6.col-xs-offset-3.btn.btn-default.btn-strat-mission start mission
         else
           | Select #{playersPerMission} players
-      else if canVote
-        .col-xs-6.btn.btn-default.btn-yes Yes
-        .col-xs-6.btn.btn-default.btn-no No
