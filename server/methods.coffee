@@ -5,17 +5,12 @@ Meteor.methods
       throw new Meteor.Error "not-authorized"
     if not gameKey
       gameKey = Random.id 3 #TODO size in base of games
-    if Games.find(_id: gameKey, {limit: 1}).count() != 0
-      throw new Meteor.Error 'Game already created'
-    Games.insert _id: gameKey
-    name = user.profile.name
-    Players.upsert user._id, {
-      $set:
-        name: if name then name else user.emails[0].address # TODO improve
-        gameKey: gameKey
-        gameMaster: true
-      $unset: #TODO unset everything but name and gamekey
-        order: true
+    TraitorGames.insert _id: gameKey, players: [user._id], (error) -> throw error if error
+    TraitorPlayers.remove user._id
+    TraitorPlayers.insert {
+      _id: user._id
+      gameMaster: true
+      name: user.profile.name or user.emails[0].address
     }
     gameKey
 
@@ -24,20 +19,19 @@ Meteor.methods
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
-    if Games.find(_id: gameKey, {limit: 1}).count() == 0
-      throw new Meteor.Error 'Game not exist'
-    #TODO still can join validation
-    name = user.profile.name
-    Players.upsert user._id, {
-      $set:
-        name: if name then name else user.emails[0].address # TODO improve (refactor)
-        gameKey: gameKey
-      $unset: #TODO unset everything but name and gamekey
-        gameMaster: true
-        order: true
+    game = TraitorGames.findOne gameKey
+    if not game
+      throw new Meteor.Error 'Game does not exist'
+    if game.players.length >= TraitorConstant.MAX_PLAYERS
+      throw new Meteor.Error 'Game already full'
+    TraitorGames.update game._id, $addToSet: {players: user._id}
+    TraitorPlayers.remove user._id
+    TraitorPlayers.insert {
+      _id: user._id
+      name: user.profile.name or user.emails[0].address
     }
 
-  startGame: ->
+ ### startGame: ->
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
@@ -72,22 +66,4 @@ Meteor.methods
           vote: true
           secret_vote: true
       }
-    gameKey
-
-  mission: (playerId)-> #xor not supported by minimongo :(
-    check playerId, String
-    user = Meteor.user()
-    if not user
-      throw new Meteor.Error "not-authorized"
-    leader = Players.findOne _id: user._id, leader: true
-    if not leader
-      throw new Meteor.Error "You are not the leader"
-    Players.update {_id: playerId, gameKey: leader.gameKey}, {
-      $bit:
-        mission:
-          xor: 1
-    }, (error, n) ->
-      if error
-        throw error
-      if n != 1
-        throw new Meteor.Error "invalid player"
+    gameKey###

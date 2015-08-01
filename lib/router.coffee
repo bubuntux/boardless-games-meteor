@@ -15,7 +15,7 @@ Router.map ->
       Meteor.subscribe 'game', @params._id
       @next()
     data: ->
-      players = Players.find({}, {sort: {order: 1}}).fetch()
-      game: Games.findOne()
+      players = TraitorPlayers.find().fetch() # TODO sort?
+      game: TraitorGames.findOne()
       players: players
       me: _.find players, (player) -> player._id is Meteor.userId()

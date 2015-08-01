@@ -6,10 +6,10 @@ Template.join.helpers
     @me?.gameMaster
 
   btnStartClass: ->
-    'disabled' if Games.Player.min > @players.length or @players.length > Games.Player.max
+    'disabled' if TraitorConstant.MIN_PLAYERS > @players.length or @players.length > TraitorConstant.MAX_PLAYERS
 
   canJoin: ->
-    @players.length < Games.Player.max and not @me and Meteor.user()
+    @players.length < TraitorConstant.MAX_PLAYERS and not @me and Meteor.user()
 
   startGame: ->
     if @game?.state?
