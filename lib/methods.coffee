@@ -1,25 +1,40 @@
 Meteor.methods
-  vote: (vote, secret) ->
+  vote: (vote) ->
     check vote, Boolean
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
-    modifier = if secret then {
-    $set:
-      secret_vote: vote
-    $unset:
-      vote: true
-    } else {
-    $set:
-      vote: vote
-    $unset:
-      secret_vote: true
-    }
-    Players.update _id: user._id, modifier, (error, n) ->
+    Players.update _id: user._id, {
+      $set:
+        secret_vote: vote
+    }, (error, n) ->
       if error
         throw error
       if n != 1 # TODO rollback??
         throw new Meteor.Error "invalid player"
+    player = Players.findOne _id: user._id
+    players = Players.find({gameKey: player.gameKey}).fetch()
+    if player.length isnt _.filter(players, (p) -> p.secret_vote?).length
+      return
+    game = Games.findOne _id: player.gameKey
+    if game.state is Games.State.mission_voting
+      if _.filter(players, (p) -> p.secret_vote).length > players.length / 2
+        game.state = Games.State.mission
+        game.rejected_missions = 0
+      else
+        game.rejected_missions++
+
+      for player in players
+        Players.update _id: player._id {
+          $set:
+            vote: player.secret_vote
+          $unset:
+            secret_vote: true
+        }
+    else if game.state is Games.State.mission
+      true
+
+
 
   startMission: ->
     user = Meteor.user()

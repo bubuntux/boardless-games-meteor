@@ -10,6 +10,14 @@ Template.traitor.helpers
     Games.Player.perRound[@players.length][@game.rounds.length]
 
 Template.traitor.events
-  'click .btn-strat-mission': (event) ->
+  'click .btn-start-mission': (event) ->
     event.preventDefault()
     Meteor.call 'startMission'
+
+  'click .btn-yes': (event) ->
+    event.preventDefault()
+    Meteor.call 'vote', true
+
+  'click .btn-no': (event) ->
+    event.preventDefault()
+    Meteor.call 'vote', false
