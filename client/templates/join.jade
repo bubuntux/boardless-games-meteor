@@ -7,13 +7,10 @@ template(name="join")
 
     .row
       if imGameMaster
-        .col-xs-offset-3.col-xs-6.btn.btn-default.btn-start(class="#{btnStartClass}")
-          | Start Game
+        .col-xs-offset-3.col-xs-6.btn.btn-default.btn-start(class="#{btnStartClass}") Start Game
       else
         if canJoin
-          .col-xs-offset-3.col-xs-6.btn.btn-default.btn-join
-            | Join Game
+          .col-xs-offset-3.col-xs-6.btn.btn-default.btn-join Join Game
         else
-          .col-xs-offset-3.col-xs-6
-            | Waiting for other players
+          .col-xs-offset-3.col-xs-6  Waiting for other players
         | #{startGame}
