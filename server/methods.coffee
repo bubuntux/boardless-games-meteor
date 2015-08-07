@@ -23,7 +23,8 @@ Meteor.methods
     game = TraitorGames.findOne gameKey
     if not game
       throw new Meteor.Error 'Game does not exist'
-    if game.players.length >= TraitorConstant.MAX_PLAYERS
+    players = TraitorPlayers.find(gameKey: gameKey).count()
+    if players >= TraitorConstant.MAX_PLAYERS
       throw new Meteor.Error 'Game already full'
     TraitorPlayers.remove user._id
     TraitorPlayers.insert {
