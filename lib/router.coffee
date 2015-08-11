@@ -1,18 +1,8 @@
-###
-Router.configure
-  layoutTemplate: 'appBody'
-###
-
 Router.map ->
   @route 'home',
     path: '/'
     render: 'home'
 
-  ###onBeforeAction: ->
-  @me = new Meteor.Collection 'me'
-  Meteor.subscribe 'games'
-  Meteor.subscribe 'players', @params._id
-  @next()###
   @route 'game',
     path: '/game/:_id'
     render: 'game'
