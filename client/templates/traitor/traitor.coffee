@@ -14,10 +14,7 @@ Template.traitor.events
     event.preventDefault()
     Meteor.call 'startMission'
 
-  'click .btn-yes': (event) ->
+  'click .btn-vote': (event) ->
     event.preventDefault()
-    Meteor.call 'vote', true
-
-  'click .btn-no': (event) ->
-    event.preventDefault()
-    Meteor.call 'vote', false
+    vote = event.target.classList.contains 'btn-yes'
+    Meteor.call 'vote', vote

@@ -5,8 +5,8 @@ template(name="traitor")
         +player
     .row
       if canVote
-        .col-xs-6.btn.btn-default.btn-yes Yes
-        .col-xs-6.btn.btn-default.btn-no No
+        .col-xs-6.btn.btn-default.btn-vote.btn-yes Yes
+        .col-xs-6.btn.btn-default.btn-vote.btn-no No
       else if me.leader
         if canStartMission
           .col-xs-6.col-xs-offset-3.btn.btn-default.btn-start-mission start mission

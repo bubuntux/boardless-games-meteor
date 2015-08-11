@@ -7,5 +7,5 @@ Template.player.helpers
 Template.player.events
   'click .btn-player': (event) ->
     event.preventDefault()
-    mission = not event.target.classList.contains('active')
+    mission = not event.target.classList.contains 'active'
     Meteor.call 'mission', @_id, mission
