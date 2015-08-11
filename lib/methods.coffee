@@ -1,21 +1,16 @@
-### Meteor.methods
-  mission: (playerId)-> #xor not supported by minimongo :(
+Meteor.methods
+  mission: (playerId, mission)->
     check playerId, String
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
-    leader = Players.findOne _id: user._id, leader: true
+    leader = TraitorPlayers.findOne _id: user._id, leader: true
     if not leader
       throw new Meteor.Error "You are not the leader"
-    Players.update {_id: playerId, gameKey: leader.gameKey}, {
-      $bit:
-        mission:
-          xor: 1
-    }, (error, n) ->
-      if error
-        throw error
-      if n != 1
-        throw new Meteor.Error "invalid player"
+    TraitorPlayers.update
+      _id: playerId,
+      gameKey: leader.gameKey,
+      {$set: {mission: mission}}, (error) -> throw error if error
 
   vote: (vote) ->
     check vote, Boolean
@@ -52,8 +47,6 @@
     else if game.state is Games.State.mission
       true
 
-
-
   startMission: ->
     user = Meteor.user()
     if not user
@@ -81,4 +74,3 @@
         throw error
       if n != 1 # TODO rollback??
         throw new Meteor.Error "invalid player"
-###
