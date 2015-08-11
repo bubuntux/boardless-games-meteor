@@ -20,8 +20,7 @@ Meteor.methods
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
-    game = TraitorGames.findOne gameKey
-    if not game
+    if TraitorGames.find(gameKey).count() is 0
       throw new Meteor.Error 'Game does not exist'
     players = TraitorPlayers.find(gameKey: gameKey).count()
     if players >= TraitorConstant.MAX_PLAYERS
