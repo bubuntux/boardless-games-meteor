@@ -7,12 +7,11 @@ Meteor.methods
       gameKey = Random.id 3 #TODO size in base of games
     TraitorGames.insert _id: gameKey, (error) -> throw error if error
     TraitorPlayers.remove user._id
-    TraitorPlayers.insert {
+    TraitorPlayers.insert
       _id: user._id
       gameMaster: true
       gameKey: gameKey
       name: user.profile.name or user.emails[0].address
-    }
     gameKey
 
   joinGame: (gameKey) ->
@@ -26,11 +25,10 @@ Meteor.methods
     if players >= TraitorConstant.MAX_PLAYERS
       throw new Meteor.Error 'Game already full'
     TraitorPlayers.remove user._id
-    TraitorPlayers.insert {
+    TraitorPlayers.insert
       _id: user._id
       gameKey: gameKey
       name: user.profile.name or user.emails[0].address
-    }
 
   startGame: ->
     user = Meteor.user()
@@ -39,10 +37,11 @@ Meteor.methods
     gameKey = TraitorPlayers.findOne(_id: user._id)?.gameKey
     if not gameKey
       throw new Meteor.Error "invalid player"
-    TraitorGames.update {_id: gameKey}, $set:
-      state: TraitorGameState.PLAYER_SELECTION
-      rejected_missions: 0 #TODO unset?
-      rounds: [] #TODO unset?
+    TraitorGames.update {_id: gameKey},
+      $set:
+        state: TraitorGameState.PLAYER_SELECTION
+        rejected_missions: 0 #TODO unset?
+        rounds: [] #TODO unset?
     , (error) -> throw error if error
 
     players = _.shuffle TraitorPlayers.find(gameKey: gameKey).fetch()
@@ -54,7 +53,7 @@ Meteor.methods
     for player in _.sample players, Math.ceil(players.length / TraitorConstant.TRAITOR_DIVISOR)
       player.traitor = true
     for player in players
-      TraitorPlayers.upsert player._id, {
+      TraitorPlayers.upsert player._id,
         $set:
           order: player.order
           leader: player.leader
@@ -63,5 +62,4 @@ Meteor.methods
           mission: true
           vote: true
           secret_vote: true
-      }
     gameKey

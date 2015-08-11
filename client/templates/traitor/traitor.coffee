@@ -9,6 +9,12 @@ Template.traitor.helpers
   playersPerMission: ->
     TraitorConstant.PLAYERS_PER_ROUND[@players.length][@game.rounds.length]
 
+  yesBtnClass: ->
+    'active' if @me.secret_vote is true
+
+  noBtnClass: ->
+    'active' if @me.secret_vote is false
+
 Template.traitor.events
   'click .btn-start-mission': (event) ->
     event.preventDefault()
