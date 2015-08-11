@@ -11,11 +11,13 @@ Router.map ->
   @route 'game',
     path: '/game/:_id'
     render: 'game'
-    onBeforeAction: ->
-      Meteor.subscribe 'game', @params._id
-      @next()
+    ###onBeforeAction: ->
+    @me = new Meteor.Collection 'me'
+    Meteor.subscribe 'games'
+    Meteor.subscribe 'players', @params._id
+    @next()###
     data: ->
-      players = TraitorPlayers.find().fetch() # TODO sort?
-      game: TraitorGames.findOne()
+      players = TraitorPlayers.find(gameKey: @params._id).fetch()
+      game: TraitorGames.findOne @params._id
       players: players
       me: _.find players, (player) -> player._id is Meteor.userId()
