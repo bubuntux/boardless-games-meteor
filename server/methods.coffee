@@ -32,7 +32,7 @@ Meteor.methods
       name: user.profile.name or user.emails[0].address
     }
 
-### startGame: ->
+  startGame: ->
    user = Meteor.user()
    if not user
      throw new Meteor.Error "not-authorized"
@@ -67,4 +67,4 @@ Meteor.methods
          vote: true
          secret_vote: true
      }
-   gameKey###
+   gameKey
