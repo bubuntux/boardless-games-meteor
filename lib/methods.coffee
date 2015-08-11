@@ -52,17 +52,16 @@ Meteor.methods
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
-    TraitorPlayers.update
-      _id: user._id,
+    TraitorPlayers.update _id: user._id,
       {$set: {secret_vote: vote}},
       (error) -> throw error if error
-
-    player = TraitorPlayers.findOne user._id
-    players = TraitorPlayers.find(gameKey: player.gameKey).fetch()
+    gameKey = TraitorPlayers.findOne(user._id)?.gameKey
+    if not gameKey
+      throw new Meteor.Error "invalid game"
+    players = TraitorPlayers.find(gameKey: gameKey).fetch()
     if players.length isnt _.filter(players, (p) -> p.secret_vote?).length
       return
-
-    game = TraitorGames.findOne player.gameKey
+    game = TraitorGames.findOne gameKey
     if game.state is TraitorGameState.MISSION_VOTING
       if _.filter(players, (p) -> p.secret_vote).length > players.length / 2
         game.state = TraitorGameState.ON_MISSION

@@ -5,6 +5,7 @@
 @TraitorConstant =
   MIN_PLAYERS: 5
   MAX_PLAYERS: 10
+  MAX_FAILED_MISSIONS: 5
   TRAITOR_DIVISOR: 3
   PLAYERS_PER_ROUND:
     5: [2, 3, 2, 3, 3]

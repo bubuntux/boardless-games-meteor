@@ -1,8 +1,16 @@
 Template.player.helpers
-  playerBtnClass: ->
+  playerClass: ->
     parentData = Template.parentData()
+    playerClass = ''
     if parentData.game.state is TraitorGameState.PLAYER_SELECTION and parentData.me.leader
-      'btn btn-default btn-player' + (if @mission then ' active' else '')
+      playerClass = 'btn btn-default btn-player'
+      if @mission
+        playerClass += ' active'
+    if @vote is true
+      playerClass += ' text-success'
+    if @vote is false
+      playerClass += ' text-danger'
+    playerClass
 
 Template.player.events
   'click .btn-player': (event) ->
