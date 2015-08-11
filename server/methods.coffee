@@ -14,22 +14,6 @@ Meteor.methods
       name: user.profile.name or user.emails[0].address
     gameKey
 
-  joinGame: (gameKey) ->
-    check gameKey, String
-    user = Meteor.user()
-    if not user
-      throw new Meteor.Error "not-authorized"
-    if TraitorGames.find(gameKey).count() is 0
-      throw new Meteor.Error 'Game does not exist'
-    players = TraitorPlayers.find(gameKey: gameKey).count()
-    if players >= TraitorConstant.MAX_PLAYERS
-      throw new Meteor.Error 'Game already full'
-    TraitorPlayers.remove user._id
-    TraitorPlayers.insert
-      _id: user._id
-      gameKey: gameKey
-      name: user.profile.name or user.emails[0].address
-
   startGame: ->
     user = Meteor.user()
     if not user
@@ -37,7 +21,7 @@ Meteor.methods
     gameKey = TraitorPlayers.findOne(_id: user._id)?.gameKey
     if not gameKey
       throw new Meteor.Error "invalid player"
-    TraitorGames.update {_id: gameKey},
+    TraitorGames.update gameKey,
       $set:
         state: TraitorGameState.PLAYER_SELECTION
         rejected_missions: 0 #TODO unset?
