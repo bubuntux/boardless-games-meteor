@@ -33,38 +33,35 @@ Meteor.methods
     }
 
   startGame: ->
-   user = Meteor.user()
-   if not user
-     throw new Meteor.Error "not-authorized"
-   gameKey = Players.findOne(_id: user._id)?.gameKey
-   if not gameKey
-     throw new Meteor.Error "invalid player"
-   Games.update {_id: gameKey}, $set:
-     state: Games.State.player_selection
-     rejected_missions: 0 #TODO unset?
-     rounds: [] #TODO unset?
-   , (error, n) ->
-     if error
-       throw error
-     if n != 1 # TODO rollback??
-       throw new Meteor.Error "invalid game"
-   players = _.shuffle Players.find(gameKey: gameKey).fetch()
-   order = 0
-   for player in players
-     player.leader = order == 0
-     player.order = order++
-     player.traitor = false # TODO remove somehow?
-   for player in _.sample players, Math.ceil(players.length / Games.Player.divisor)
-     player.traitor = true
-   for player in players
-     Players.upsert player._id, {
-       $set:
-         order: player.order
-         leader: player.leader
-         traitor: player.traitor
-       $unset: # TODO check
-         mission: true
-         vote: true
-         secret_vote: true
-     }
-   gameKey
+    user = Meteor.user()
+    if not user
+      throw new Meteor.Error "not-authorized"
+    gameKey = TraitorPlayers.findOne(_id: user._id)?.gameKey
+    if not gameKey
+      throw new Meteor.Error "invalid player"
+    TraitorGames.update {_id: gameKey}, $set:
+      state: TraitorGameState.PLAYER_SELECTION
+      rejected_missions: 0 #TODO unset?
+      rounds: [] #TODO unset?
+    , (error) -> throw error if error
+
+    players = _.shuffle TraitorPlayers.find(gameKey: gameKey).fetch()
+    order = 0
+    for player in players
+      player.leader = order is 0
+      player.order = order++
+      player.traitor = false # TODO remove somehow?
+    for player in _.sample players, Math.ceil(players.length / TraitorConstant.TRAITOR_DIVISOR)
+      player.traitor = true
+    for player in players
+      TraitorPlayers.upsert player._id, {
+        $set:
+          order: player.order
+          leader: player.leader
+          traitor: player.traitor
+        $unset: # TODO check
+          mission: true
+          vote: true
+          secret_vote: true
+      }
+    gameKey

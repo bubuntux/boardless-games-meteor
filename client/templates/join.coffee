@@ -11,20 +11,11 @@ Template.join.helpers
   canJoin: ->
     @players.length < TraitorConstant.MAX_PLAYERS and not @me and Meteor.user()
 
-  startGame: ->
-    if @game?.state?
-      Router.go 'game', _id: @game._id
-
 Template.join.events
   'click .btn-join': (event) ->
     event.preventDefault()
-    Meteor.call 'joinGame', @game._id, (error) ->
-      if error
-        throw error
+    Meteor.call 'joinGame', @game._id, (error) -> throw error if error
 
   'click .btn-start:not(.disabled)': ->
     event.preventDefault()
-    Meteor.call 'startGame', (error, gameKey) ->
-      if error
-        throw error
-      Router.go 'game', _id: gameKey
+    Meteor.call 'startGame', (error) -> throw error if error
