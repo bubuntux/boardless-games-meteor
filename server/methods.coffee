@@ -24,8 +24,8 @@ Meteor.methods
     TraitorGames.update gameKey,
       $set:
         state: TraitorGameState.PLAYER_SELECTION
-        distrust_level: 0 #TODO unset?
-        rounds: [] #TODO unset?
+        distrust_level: 0
+        rounds: []
     , (error) -> throw error if error
 
     players = _.shuffle TraitorPlayers.find(gameKey: gameKey).fetch()
