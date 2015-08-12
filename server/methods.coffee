@@ -24,7 +24,7 @@ Meteor.methods
     TraitorGames.update gameKey,
       $set:
         state: TraitorGameState.PLAYER_SELECTION
-        rejected_missions: 0 #TODO unset?
+        distrust_level: 0 #TODO unset?
         rounds: [] #TODO unset?
     , (error) -> throw error if error
 

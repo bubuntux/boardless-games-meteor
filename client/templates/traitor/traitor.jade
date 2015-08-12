@@ -1,12 +1,14 @@
 template(name="traitor")
   .container-fluid.text-center
     .row
+      | #{game.distrust_level}
+    .row
       each players
         +player
     .row
       if canVote
-        .col-xs-6.btn.btn-default.btn-vote.btn-yes(class="#{yesBtnClass}") Yes
-        .col-xs-6.btn.btn-default.btn-vote.btn-no(class="#{noBtnClass}") No
+        .col-xs-6.btn.btn-default.btn-vote.btn-yes.text-success(class="#{yesBtnClass}") Yes
+        .col-xs-6.btn.btn-default.btn-vote.btn-no.text-danger(class="#{noBtnClass}") No
       else if me.leader
         if canStartMission
           .col-xs-6.col-xs-offset-3.btn.btn-default.btn-start-mission start mission
