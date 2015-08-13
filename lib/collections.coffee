@@ -3,6 +3,8 @@
 
 @TraitorGames = new Mongo.Collection 'traitorGames'
 @TraitorConstant =
+  MAX_MISSIONS: 5
+  MISSIONS_TO_WIN: 3
   MIN_PLAYERS: 5
   MAX_PLAYERS: 10
   MAX_DISTRUST_LEVEL: 5
@@ -19,4 +21,4 @@
   MISSION_VOTING: 2
   ON_MISSION: 3
   VICTORY: 4
-  GAME_OVERr: 5
+  GAME_OVER: 5

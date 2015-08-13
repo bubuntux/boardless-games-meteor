@@ -1,7 +1,10 @@
 template(name="traitor")
   .container-fluid.text-center
     .row
-      | #{game.distrust_level}
+      | Distrust level: #{game.distrust_level}
+      | Game state: #{game.state}
+    .row
+
     .row
       each players
         +player

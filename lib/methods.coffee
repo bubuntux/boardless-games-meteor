@@ -60,31 +60,52 @@ Meteor.methods
     if not gameKey
       throw new Meteor.Error "invalid game"
     players = TraitorPlayers.find(gameKey: gameKey).fetch()
-    if players.length isnt _.filter(players, (p) -> p.secret_vote?).length
-      return
     game = TraitorGames.findOne gameKey
     delete game._id
     if game.state is TraitorGameState.MISSION_VOTING
+      if players.length isnt _.filter(players, (p) -> p.secret_vote?).length
+        return
       if _.filter(players, (p) -> p.secret_vote).length > players.length / 2
         game.state = TraitorGameState.ON_MISSION
         game.distrust_level = 0
       else
         game.state = TraitorGameState.PLAYER_SELECTION
         game.distrust_level++
+        if game.distrust_level is TraitorConstant.MAX_DISTRUST_LEVEL
+          game.state = TraitorGameState.GAME_OVER
+        else
+          currentLeader = _.find players, (player) -> player.leader
+          nextLeader = _.find players, (player) -> player.order is currentLeader.order + 1
+          if not nextLeader
+            nextLeader = _.find players, (player) -> player.order is 0
+          TraitorPlayers.update currentLeader._id, {$unset: {leader: true}}
+          TraitorPlayers.update nextLeader._id, {$set: {leader: true}}
 
-        #TODO improve
+      for player in players
+        TraitorPlayers.update player._id,
+          {$set: {vote: player.secret_vote}, $unset: {secret_vote: true, mission: true}}
+    else if game.state is TraitorGameState.ON_MISSION
+      if players.length isnt _.filter(players, (p) -> p.mission and p.secret_vote?).length
+        return
+      game.rounds.push _.filter(players, (p) -> p.mission and p.secret_vote is false).length
+      count = _.countBy(game.rounds,
+        (r) -> if (players.length < 7 and r is 0) or (players.length >= 7 and r < 2) then 'won' else 'lose')
+      if count.won is TraitorConstant.MISSIONS_TO_WIN
+        game.state = TraitorGameState.VICTORY
+      else if game.lose is TraitorConstant.MISSIONS_TO_WIN
+        game.state = TraitorGameState.GAME_OVER
+      else
+        game.state = TraitorGameState.PLAYER_SELECTION
         currentLeader = _.find players, (player) -> player.leader
         nextLeader = _.find players, (player) -> player.order is currentLeader.order + 1
         if not nextLeader
           nextLeader = _.find players, (player) -> player.order is 0
         TraitorPlayers.update currentLeader._id, {$unset: {leader: true}}
         TraitorPlayers.update nextLeader._id, {$set: {leader: true}}
+        for player in players
+          TraitorPlayers.update player._id,
+            {$unset: {vote: true, secret_vote: true, mission: true}}
+    else
+      return
 
-      for player in players
-        TraitorPlayers.update player._id,
-          {$set: {vote: player.secret_vote}, $unset: {secret_vote: true, mission: true}}
-
-      TraitorGames.update gameKey, {$set: game}
-    else if game.state is TraitorGameState.ON_MISSION
-      true
-
+    TraitorGames.update gameKey, {$set: game}
