@@ -65,12 +65,14 @@ Meteor.methods
     if game.state is TraitorGameState.MISSION_VOTING
       if players.length isnt _.filter(players, (p) -> p.secret_vote?).length
         return
+      unset = {secret_vote: true}
       if _.filter(players, (p) -> p.secret_vote).length > players.length / 2
         game.state = TraitorGameState.ON_MISSION
         game.distrust_level = 0
       else
         game.state = TraitorGameState.PLAYER_SELECTION
         game.distrust_level++
+        unset.mission = true
         if game.distrust_level is TraitorConstant.MAX_DISTRUST_LEVEL
           game.state = TraitorGameState.GAME_OVER
         else
@@ -83,7 +85,7 @@ Meteor.methods
 
       for player in players
         TraitorPlayers.update player._id,
-          {$set: {vote: player.secret_vote}, $unset: {secret_vote: true, mission: true}}
+          {$set: {vote: player.secret_vote}, $unset: unset}
     else if game.state is TraitorGameState.ON_MISSION
       playersPerRound = TraitorConstant.PLAYERS_PER_ROUND[players.length][game.rounds.length]
       if playersPerRound isnt _.filter(players, (p) -> p.mission and p.secret_vote?).length
