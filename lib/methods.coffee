@@ -85,7 +85,8 @@ Meteor.methods
         TraitorPlayers.update player._id,
           {$set: {vote: player.secret_vote}, $unset: {secret_vote: true, mission: true}}
     else if game.state is TraitorGameState.ON_MISSION
-      if players.length isnt _.filter(players, (p) -> p.mission and p.secret_vote?).length
+      playersPerRound = TraitorConstant.PLAYERS_PER_ROUND[players.length][game.rounds.length]
+      if playersPerRound isnt _.filter(players, (p) -> p.mission and p.secret_vote?).length
         return
       game.rounds.push _.filter(players, (p) -> p.mission and p.secret_vote is false).length
       count = _.countBy(game.rounds,
