@@ -1,6 +1,7 @@
 Template.traitor.helpers
   canVote: ->
-    (@game.state is TraitorGameState.MISSION_VOTING) or (@me.mission and @game.state is TraitorGameState.ON_MISSION)
+    @game.state is TraitorGameState.VICTORY or @game.state is TraitorGameState.GAME_OVER or
+      @game.state is TraitorGameState.MISSION_VOTING or (@me.mission and @game.state is TraitorGameState.ON_MISSION)
 
   canStartMission: ->
     @me.leader and @game.state is TraitorGameState.PLAYER_SELECTION

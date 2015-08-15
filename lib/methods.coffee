@@ -108,6 +108,31 @@ Meteor.methods
         for player in players
           TraitorPlayers.update player._id,
             {$unset: {vote: true, secret_vote: true, mission: true}}
+    else if game.state is TraitorGameState.GAME_OVER or game.state is TraitorGameState.VICTORY
+      TraitorPlayers.update user._id, {$set: {vote: vote}}
+      if players.length is _.filter(players, (p) -> p.secret_vote?).length
+        game.state = TraitorGameState.PLAYER_SELECTION
+        game.distrust_level = 0
+        game.rounds = []
+
+        players = _.shuffle players
+        order = 0
+        for player in players
+          player.leader = order is 0
+          player.order = order++
+          player.traitor = false # TODO remove somehow?
+        for player in _.sample players, Math.ceil(players.length / TraitorConstant.TRAITOR_DIVISOR)
+          player.traitor = true
+        for player in players
+          TraitorPlayers.upsert player._id,
+            $set:
+              order: player.order
+              leader: player.leader
+              traitor: player.traitor
+            $unset: # TODO check
+              mission: true
+              vote: true
+              secret_vote: true
     else
       return
 
