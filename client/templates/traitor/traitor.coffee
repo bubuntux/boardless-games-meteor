@@ -30,6 +30,9 @@ Template.traitor.helpers
   noBtnClass: ->
     'active' if @me.secret_vote is false
 
+  identityLabel: ->
+    if Session.get 'identity' then 'Hide identity' else 'Show identity'
+
 Template.traitor.events
   'click .btn-start-mission': (event) ->
     event.preventDefault()
