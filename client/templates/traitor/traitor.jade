@@ -1,13 +1,17 @@
 template(name="traitor")
   .container-fluid.text-center
     .row
-      | Game state: #{gameState}
-    .row
-      | Distrust level: #{game.distrust_level}
+      .col-xs-4
+        | Distrust level: #{game.distrust_level}
+      .col-xs-4
+        | Game state: #{gameState}
+      .col-xs-4.btn.btn-default.btn-identity.text-info
+        | Show identity
     .row
       | Players per mission: #{playersPerMissions}
     .row
       | Rejects per mission: #{game.rounds}
+    br
     .row
       each players
         +player

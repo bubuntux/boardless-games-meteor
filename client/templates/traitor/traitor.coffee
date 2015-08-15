@@ -39,3 +39,7 @@ Template.traitor.events
     event.preventDefault()
     vote = event.target.classList.contains 'btn-yes'
     Meteor.call 'vote', vote
+
+  'click .btn-identity': (event) ->
+    event.preventDefault()
+    Session.set 'identity', not (Session.get 'identity')

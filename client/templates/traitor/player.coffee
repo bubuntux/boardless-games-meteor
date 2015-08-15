@@ -12,6 +12,13 @@ Template.player.helpers
       playerClass += ' text-danger'
     playerClass
 
+  showIdentity: ->
+    Session.get 'identity'
+
+  infiltrator: ->
+    parentData = Template.parentData()
+    parentData.me.traitor and @traitor
+
 Template.player.events
   'click .btn-player': (event) ->
     event.preventDefault()
