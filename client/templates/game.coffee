@@ -43,11 +43,12 @@ Template.game.onRendered ->
       .call(-> stage.removeChild(this))
 
   btnBackground = new createjs.Shape()
-  btnBackground.graphics.beginFill('Red').drawRoundRect 0, 0, 150, 60, 10
+  btnBackground.graphics.beginFill('DeepSkyBlue').drawRoundRect 0, 0, 125, 30, 10
 
-  btnLabel = new createjs.Text "Hello World"
-  btnLabel.x = 150 / 2
-  btnLabel.y = 30
+  btnLabel = new createjs.Text "Join", '20px Arial', 'White'
+  bound = btnLabel.getBounds()
+  btnLabel.x = (125 - bound.width) / 2
+  btnLabel.y = (30 - bound.height) / 2
 
   btn = new createjs.Container()
   btn.x = 300
