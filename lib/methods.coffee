@@ -10,10 +10,12 @@ Meteor.methods
     if players >= TraitorConstant.MAX_PLAYERS
       throw new Meteor.Error 'Game already full'
     TraitorPlayers.remove user._id
+    name = user.profile.name or user.emails[0].address
+    name = name.substring 0, name.indexOf '@'
     TraitorPlayers.insert
       _id: user._id
       gameKey: gameKey
-      name: user.profile.name or user.emails[0].address
+      name: name
 
   mission: (playerId, mission)->
     check playerId, String

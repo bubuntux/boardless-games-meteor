@@ -7,11 +7,13 @@ Meteor.methods
       gameKey = Random.id 3 #TODO size in base of games
     TraitorGames.insert _id: gameKey, (error) -> throw error if error
     TraitorPlayers.remove user._id
+    name = user.profile.name or user.emails[0].address
+    name = name.substring 0, name.indexOf '@'
     TraitorPlayers.insert
       _id: user._id
       gameMaster: true
       gameKey: gameKey
-      name: user.profile.name or user.emails[0].address
+      name: name
     gameKey
 
   startGame: ->
