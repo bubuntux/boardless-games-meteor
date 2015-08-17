@@ -16,13 +16,11 @@ Template.game.onRendered ->
       playerContainer.x = (index * 125) + 100
       playerContainer.y = 25
       playerContainer.alpha = 0
-
       playerContainer.addChild circle, text
 
       stage.addChild playerContainer
 
-      createjs.Tween.get(playerContainer)
-      .to({alpha: 1, y: 75}, 1500, createjs.Ease.getBackInOut(5))
+      createjs.Tween.get(playerContainer).to({alpha: 1, y: 75}, 1500, createjs.Ease.getBackInOut(5))
 
   btnBackground = new createjs.Shape()
   btnBackground.graphics.beginFill('Red').drawRoundRect 0, 0, 150, 60, 10
