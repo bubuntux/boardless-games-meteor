@@ -36,12 +36,11 @@ Template.game.onRendered ->
 
       stage.addChild container
 
-      createjs.Tween.get(container).to({alpha: 1, y: 75}, 1500, createjs.Ease.getBackInOut(5))
+      createjs.Tween.get(container).to({alpha: 1, y: 75}, 1000, createjs.Ease.getBackInOut(5))
     removed: (player) ->
       createjs.Tween.get(stage.getChildByName(player._id))
-      .to({alpha: 0, y: 25}, 1500, createjs.Ease.getBackInOut(5))
+      .to({alpha: 0, y: 25}, 800, createjs.Ease.getBackInOut(5))
       .call(-> stage.removeChild(this))
-
 
   btnBackground = new createjs.Shape()
   btnBackground.graphics.beginFill('Red').drawRoundRect 0, 0, 150, 60, 10
