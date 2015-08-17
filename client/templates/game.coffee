@@ -51,11 +51,10 @@ Template.game.onRendered ->
   btnLabel.y = (30 - bound.height) / 2
 
   btn = new createjs.Container()
-  btn.x = 300
+  btn.x = (800 - 125) / 2
   btn.y = 200
   btn.addChild btnBackground, btnLabel
 
-  btn.addEventListener "click", (event) ->
-    Meteor.call 'joinGame', gameKey(), (error) -> throw error if error
+  btn.addEventListener "click", (event) -> Meteor.call 'joinGame', gameKey(), (error) -> throw error if error
 
   stage.addChild btn
