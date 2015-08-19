@@ -37,27 +37,28 @@ joinButton = ->
   stage.addChild btn
 
 addPlayer = (player, index) ->
+  radius = 50
   circle = new createjs.Shape()
   circle.name = 'picture'
-  circle.graphics.setStrokeStyle 2
+  circle.graphics.setStrokeStyle 3
   circle.graphics.beginStroke 'Blue'
   circle.graphics.beginFill 'DeepSkyBlue'
-  circle.graphics.drawCircle 0, 0, 50
+  circle.graphics.drawCircle radius, radius, radius
 
   text = new createjs.Text player.name, '20px Arial', 'White'
   text.name = 'name'
-  text.y = 55
+  text.x = text.getBounds().width / -2 + radius
+  text.y = radius * 2
 
   container = new createjs.Container()
   container.name = player._id
-  container.x = (index * 125) + 100
-  container.y = 25
+  container.x = index * 150 + radius
   container.alpha = 0
   container.addChild circle, text
 
   stage.addChild container
 
-  createjs.Tween.get(container).to({alpha: 1, y: 75}, 1000, createjs.Ease.getBackInOut(5))
+  createjs.Tween.get(container).to({alpha: 1, y: 15}, 1000, createjs.Ease.getBackInOut(5))
 
 removePlayer = (player) ->
   createjs.Tween.get(stage.getChildByName(player._id))
