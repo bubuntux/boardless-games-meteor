@@ -28,7 +28,7 @@ joinButton = ->
 
   btn = new createjs.Container()
   btn.x = (800 - 125) / 2
-  btn.y = 200
+  btn.y = 450
   btn.addChild btnBackground, btnLabel
 
   btn.addEventListener "click", (event) ->
@@ -60,7 +60,7 @@ addPlayer = (player, atIndex) ->
 
   stage.addChild container
 
-  createjs.Tween.get(container).to({alpha: 1, y: y + 15}, 1000, createjs.Ease.getBackInOut(5))
+  createjs.Tween.get(container).to({alpha: 1, y: y + 30}, 1000, createjs.Ease.getBackInOut(5))
 
 removePlayer = (oldPlayer) ->
   playerContainer = stage.getChildByName(oldPlayer._id)
