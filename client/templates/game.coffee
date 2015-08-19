@@ -50,15 +50,18 @@ addPlayer = (player, atIndex) ->
   text.x = text.getBounds().width / -2 + radius
   text.y = radius * 2
 
+  y = if atIndex < 5 then 0 else radius * 3
+  x = (if atIndex < 5 then atIndex else atIndex - 5) * 150 + radius
   container = new createjs.Container()
   container.name = player._id
-  container.x = atIndex * 150 + radius
+  container.x = x
+  container.y = y
   container.alpha = 0
   container.addChild circle, text
 
   stage.addChild container
 
-  createjs.Tween.get(container).to({alpha: 1, y: 15}, 1000, createjs.Ease.getBackInOut(5))
+  createjs.Tween.get(container).to({alpha: 1, y: y + 15}, 1000, createjs.Ease.getBackInOut(5))
 
 removePlayer = (oldPlayer) ->
   createjs.Tween.get(stage.getChildByName(oldPlayer._id))
