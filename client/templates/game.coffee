@@ -1,6 +1,5 @@
 stage = null
 gameKey = null
-playerContainer = null
 
 Template.game.onCreated ->
   gameKey = @data.gameKey

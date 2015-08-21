@@ -47,10 +47,10 @@ class @PlayerContainer
       else if player._id is oldPlayer._id
         found = true
         @players.splice(i, 1)
+        n--
+        i--
         createjs.Tween.get(player.container)
         .to({alpha: 0, y: player.container.y - 30}, 850, createjs.Ease.getBackInOut(5))
         .call(-> @parent.removeChild(@))
-        i--
-        n--
       i++
 
