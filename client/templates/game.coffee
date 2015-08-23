@@ -6,7 +6,8 @@ Template.game.onCreated ->
 
 Template.game.onRendered ->
   stage = new createjs.Stage 'gameCanvas'
-  playerContainer = new PlayerContainer(stage)
+  playerContainer = new PlayerContainer()
+  stage.addChild playerContainer.container
 
   TraitorPlayers.find(gameKey: gameKey, {sort: {order: 1}}).observe
     added: (player) -> playerContainer.addPlayer(player)

@@ -1,8 +1,7 @@
 class @PlayerContainer
-  constructor: (stage) ->
-    @main = new createjs.Container()
+  constructor: ->
+    @container = new createjs.Container()
     @players = []
-    stage.addChild(@main)
 
   addPlayer: (player) ->
     index = @players.length
@@ -22,18 +21,18 @@ class @PlayerContainer
     text.y = radius * 2
 
     y = if index < 5 then -15 else radius * 3 - 15
-    container = new createjs.Container()
-    container.name = player._id
-    container.x = (if index < 5 then index else index - 5) * 150 + radius
-    container.y = y
-    container.alpha = 0
-    container.addChild circle, text
+    pContainer = new createjs.Container()
+    pContainer.name = player._id
+    pContainer.x = (if index < 5 then index else index - 5) * 150 + radius
+    pContainer.y = y
+    pContainer.alpha = 0
+    pContainer.addChild circle, text
 
-    player.container = container
+    player.container = pContainer
 
-    @main.addChild container
+    @container.addChild pContainer
 
-    createjs.Tween.get(container).to({alpha: 1, y: y + 30}, 1000, createjs.Ease.getBackInOut(5))
+    createjs.Tween.get(pContainer).to({alpha: 1, y: y + 30}, 1000, createjs.Ease.getBackInOut(5))
 
   removePlayer: (oldPlayer) -> #clean up
     n = @players.length
@@ -54,3 +53,6 @@ class @PlayerContainer
         .call(-> @parent.removeChild(@))
       i++
 
+class @ActionContainer
+  constructor: () ->
+    @container = new createjs.Container()
