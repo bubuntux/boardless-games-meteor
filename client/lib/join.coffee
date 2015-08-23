@@ -54,5 +54,32 @@ class @PlayerContainer
       i++
 
 class @ActionContainer
-  constructor: () ->
+  constructor: (x, y, @width, @height) ->
     @container = new createjs.Container()
+    @container.x = x
+    @container.y = y
+
+  update: ->
+    btnBackground = new createjs.Shape()
+    btnBackground.graphics.beginFill('DeepSkyBlue').drawRoundRect 0, 0, 125, 30, 10
+
+
+  joinButton = ->
+    btnBackground = new createjs.Shape()
+    btnBackground.graphics.beginFill('DeepSkyBlue').drawRoundRect 0, 0, 125, 30, 10
+
+    btnLabel = new createjs.Text "Join", '20px Arial', 'White'
+    bound = btnLabel.getBounds()
+    btnLabel.x = (125 - bound.width) / 2
+    btnLabel.y = (30 - bound.height) / 2
+
+    btn = new createjs.Container()
+    btn.name = 'joinButton'
+    btn.x = (800 - 125) / 2
+    btn.y = 450
+    btn.addChild btnBackground, btnLabel
+
+    btn.addEventListener "click", (event) ->
+      Meteor.call 'joinGame', gameKey, (error) -> throw error if error
+
+    btn
