@@ -11,6 +11,5 @@ mquandalle:jade
 random
 accounts-password
 accounts-facebook
-twbs:bootstrap
-ian:accounts-ui-bootstrap-3
+accounts-ui
 autopublish
