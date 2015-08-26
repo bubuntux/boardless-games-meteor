@@ -1,8 +1,9 @@
 template(name="join")
   .container-fluid.text-center
-    .row
-      each players
-        .col-xs-3.wow.fadeInDown(class="#{playerClass}")
+    each players
+      .col-xs-3.wow.fadeInDown(class="#{playerClass}")
+        .col-xs-offset-4.col-xs-4
+          .circle
           | #{name}
     .row
       if imGameMaster
