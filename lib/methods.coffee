@@ -13,7 +13,7 @@ Meteor.methods
     TraitorPlayers.insert
       _id: user._id
       gameKey: gameKey
-      name: user.profile.name or user.emails[0].address
+      name: user?.profile?.name or user?.emails[0]?.address
 
   mission: (playerId, mission)->
     check playerId, String
