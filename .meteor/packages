@@ -5,12 +5,13 @@
 # but you can also edit it by hand.
 
 meteor-platform
-iron:router
 coffeescript
-mquandalle:jade
+iron:router
 random
-accounts-password
 accounts-facebook
-twbs:bootstrap
-ian:accounts-ui-bootstrap-3
+
+# To be removed
+accounts-password
+mquandalle:jade
+accounts-ui
 autopublish
