@@ -1,5 +1,5 @@
 Template.game.onRendered ->
-  game = new Phaser.Game(800, 600, Phaser.AUTO, 'canvas-game', {preload, create, update, render})
+  game = new Phaser.Game(640, 360, Phaser.AUTO, null, {preload, create, update, render})
   game.key = @data.gameKey
 
 preload = ->
