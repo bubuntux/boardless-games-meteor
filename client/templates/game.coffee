@@ -3,7 +3,7 @@ Template.game.onRendered ->
   game.key = @data.gameKey
 
 preload = ->
-  @game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js');
+
 
 create = ->
   game = @game
@@ -20,7 +20,7 @@ create = ->
       graphics.drawCircle(25, 25, 50)
       graphics.endFill()
 
-      text = game.add.text(0, 0, player.name, {font: "16px Droid Sans", fill: "#fff"}, group)
+      text = game.add.text(0, 0, player.name, {font: "16px Arial", fill: "#fff"}, group)
       text.x = (graphics.width - text.width) / 2
       text.y = graphics.height + 5
 
