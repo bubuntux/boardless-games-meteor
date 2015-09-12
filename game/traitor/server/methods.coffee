@@ -11,7 +11,7 @@ Meteor.methods
       _id: user._id
       gameMaster: true
       gameKey: gameKey
-      name: user.profile.name or user.emails[0].address
+      name: user?.profile?.name or user.emails[0].address
     gameKey
 
   startGame: ->
