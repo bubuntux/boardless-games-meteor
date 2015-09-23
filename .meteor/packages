@@ -25,3 +25,5 @@ reload
 ejson
 spacebars
 check
+underscore
+ecmascript
