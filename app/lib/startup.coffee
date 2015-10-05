@@ -1,5 +1,5 @@
 Meteor.startup ->
-  if TraitorPlayers.find().count() is 0
+  if Meteor.users.find().count() is 0
     alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('')
     _.each alphabet, (letter) ->
       Accounts.createUser(

@@ -1,19 +1,4 @@
 Meteor.methods
-  createGame: (gameKey) ->
-    user = Meteor.user()
-    if not user
-      throw new Meteor.Error "not-authorized"
-    if not gameKey
-      gameKey = Random.id 3 #TODO size in base of games
-    TraitorGames.insert _id: gameKey, (error) -> throw error if error
-    TraitorPlayers.remove user._id
-    TraitorPlayers.insert
-      _id: user._id
-      gameMaster: true
-      gameKey: gameKey
-      name: user?.profile?.name or user.emails[0].address
-    gameKey
-
   startGame: ->
     user = Meteor.user()
     if not user
@@ -21,6 +6,7 @@ Meteor.methods
     gameKey = TraitorPlayers.findOne(_id: user._id)?.gameKey
     if not gameKey
       throw new Meteor.Error "invalid player"
+
     TraitorGames.update gameKey,
       $set:
         state: TraitorGameState.PLAYER_SELECTION

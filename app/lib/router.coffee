@@ -4,11 +4,9 @@ Router.map ->
     render: 'home'
 
   @route 'game',
-    path: '/game/:_id'
+    path: '/:name/:key'
     render: 'game'
     data: ->
-      gameKey = @params._id
-      players = TraitorPlayers.find(gameKey: gameKey, {sort: {order: 1}}).fetch()
-      game: TraitorGames.findOne gameKey
-      players: players
-      me: _.find players, (player) -> player._id is Meteor.userId()
+      name = @params.name
+      key = @params.key
+      board: Boards.find(name: name, key: key).fetch()

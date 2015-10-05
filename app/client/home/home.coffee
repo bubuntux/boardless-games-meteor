@@ -5,11 +5,12 @@ Template.home.helpers
 Template.home.events
   'click .btn-create:not(.disabled)': (event, template) ->
     event.preventDefault()
-    gameKeyInput = template.$('.gameKeyInput').val()
-    Meteor.call 'createGame', gameKeyInput, (error, gameKey) ->
+    nameInput = template.$('.nameInput').val()
+    keyInput = template.$('.keyInput').val()
+    Meteor.call 'createGame', nameInput, keyInput, (error, key) ->
       if error
         throw error
-      Router.go 'game', _id: gameKey
+      Router.go 'game', name: nameInput, key: key
 
   'click .btn-join:not(.disabled)': (event, template) ->
     event.preventDefault()

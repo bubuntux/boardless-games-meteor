@@ -4,7 +4,13 @@ template(name="home")
     +loginButtons
   .container.text-center
     .row
-      input.form-control.gameKeyInput(type="text")
+      select.form-control.nameInput
+        option(value="love-letters")
+          | Love Letters
+        option(value="the-resistance")
+          | The Resistance
+    .row
+      input.form-control.keyInput(type="text")
     .row
       button.col-xs-offset-1.col-xs-4.btn.btn-lg.btn-primary.btn-create(class="#{btnCreateClass}")
         | Create
