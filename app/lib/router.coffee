@@ -1,12 +1,13 @@
+Router.configure
+  layoutTemplate: 'layout'
+
 Router.map ->
   @route 'home',
     path: '/'
     render: 'home'
 
-  @route 'game',
-    path: '/:name/:key'
-    render: 'game'
+  @route 'join',
+    path: '/:gameName/:gameKey'
+    render: 'join'
     data: ->
-      name = @params.name
-      key = @params.key
-      board: Boards.find(name: name, key: key).fetch()
+      board: Boards.find(gameName: @params.gameName, gameKey: @params.gameKey).fetch()
