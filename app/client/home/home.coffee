@@ -20,7 +20,7 @@ Template.home.events
       throw new Meteor.Error 500, 'Invalid game'
     Router.go 'join', gameName: nameInput, gameKey: keyInput
 
-  'keyup .gameKeyInput': (event, template) ->
+  'keyup .keyInput': (event, template) ->
     event.preventDefault()
     if template.$('.keyInput').val().length is 0
       template.$('.btn-join').addClass('disabled')

@@ -11,15 +11,16 @@ Template.join.helpers
     'disabled' if @board.maxPlayers > @board.players.length or @board.players.length > @board.maxPlayers
 
   canJoin: ->
-    return false if not @board?.players?
+    user = Meteor.user()
+    return false if not user or not @board?.players?
     if @board.players.length < @board.maxPlayers
-      me = _.find(@board.players, (p) -> p is Meteor.userId())
+      me = _.find(@board.players, (p) -> p is user._id)
       not me
 
 Template.join.events
   'click .btn-join': (event) ->
     event.preventDefault()
-    Meteor.call 'joinGame', @game._id, (error) -> throw error if error
+    Meteor.call 'joinGame', @board.gameName, @board.gameKey, (error) -> throw error if error
 
   'click .btn-start': (event)->
     event.preventDefault()
@@ -27,5 +28,5 @@ Template.join.events
       currentClass = event.target.className
       event.target.className = currentClass?.replace('animated', 'animated shake')
     else
-      #TODO animation
+#TODO animation
       Meteor.call 'startGame', (error) -> throw error if error
