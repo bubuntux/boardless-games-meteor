@@ -6,8 +6,7 @@ Router.map ->
     path: '/'
     render: 'home'
 
-  @route 'join',
-    path: '/:gameName/:gameKey'
-    render: 'join'
-    data: ->
-      board: Boards.find(gameName: @params.gameName, gameKey: @params.gameKey).fetch()
+  @route '/:gameName/:gameKey', ->
+    @render 'join', data: ->
+      board: Boards.findOne(gameName: @params.gameName, gameKey: @params.gameKey)
+  , name: 'join'

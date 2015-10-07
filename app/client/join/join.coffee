@@ -1,15 +1,20 @@
 Template.join.helpers
   playerClass: ->
-    'text-success' if @gameMaster
+    board = Template.parentData().board
+    'text-success' if board.players[0] is String(@)
 
   imGameMaster: ->
-    @me?.gameMaster
+    @board.players[0] is Meteor.userId()
 
   btnStartClass: ->
-    'disabled' if TraitorConstant.MIN_PLAYERS > @players.length or @players.length > TraitorConstant.MAX_PLAYERS
+    return if not @board?.players?
+    'disabled' if @board.maxPlayers > @board.players.length or @board.players.length > @board.maxPlayers
 
   canJoin: ->
-    @players.length < TraitorConstant.MAX_PLAYERS and not @me and Meteor.user()
+    return false if not @board?.players?
+    if @board.players.length < @board.maxPlayers
+      me = _.find(@board.players, (p) -> p is Meteor.userId())
+      not me
 
 Template.join.events
   'click .btn-join': (event) ->

@@ -1,13 +1,15 @@
 Meteor.methods
-  createGame: (name, key) ->
+  createGame: (gameName, gameKey) ->
     user = Meteor.user()
     if not user
       throw new Meteor.Error "not-authorized"
-    if not name
+    if not gameName
       throw new Meteor.Error "Unknown Game"
-    if not key
-      key = Random.id 3 #TODO size in base of games
+    if not gameKey
+      gameKey = Random.id 3 #TODO size in base of games
 
-    board = name: name, key: key, users: [user.id]
+    board = gameName: gameName, gameKey: gameKey, players: [user._id],
+    minPlayers: 5, maxPlayers: 10 # TODO
+
     Boards.insert board, (error) -> throw error if error
-    key
+    gameKey

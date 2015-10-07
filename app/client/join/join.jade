@@ -1,10 +1,10 @@
 template(name="join")
   .container-fluid.text-center
-    each players
+    each board.players
       .col-xs-3.animated.fadeInDown.player(class="#{playerClass}")
         .col-xs-offset-4.col-xs-4
           .circle
-          | #{name}
+          | #{this} ///TODO put name
     .row
       if imGameMaster
         .col-xs-offset-3.col-xs-6.animated.fadeInUp.btn.btn-default.btn-start(class="#{btnStartClass}") Start Game
