@@ -4,11 +4,12 @@ Template.join.helpers
     'text-success' if board.players[0] is String(@)
 
   imGameMaster: ->
+    return if not @board?.players
     @board.players[0] is Meteor.userId()
 
   btnStartClass: ->
-    return if not @board?.players?
-    'disabled' if @board.maxPlayers > @board.players.length or @board.players.length > @board.maxPlayers
+    return if not @board?.players
+    'disabled' if @board.minPlayers > @board.players.length or @board.players.length > @board.maxPlayers
 
   canJoin: ->
     user = Meteor.user()
@@ -28,5 +29,4 @@ Template.join.events
       currentClass = event.target.className
       event.target.className = currentClass?.replace('animated', 'animated shake')
     else
-#TODO animation
-      Meteor.call 'startGame', (error) -> throw error if error
+      Meteor.call 'startGame', (error) -> throw error if error #TODO animation
