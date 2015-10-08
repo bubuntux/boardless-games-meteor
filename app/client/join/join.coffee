@@ -30,3 +30,8 @@ Template.join.events
       event.target.className = currentClass?.replace('animated', 'animated shake')
     else
       Meteor.call 'startGame', (error) -> throw error if error #TODO animation
+
+  'animationend': (event) ->
+    event.target.classList.remove('fadeInDown')
+    event.target.classList.remove('fadeInUp')
+    event.target.classList.remove('shake')
