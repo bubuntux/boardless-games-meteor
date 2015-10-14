@@ -2,10 +2,9 @@ template(name="home")
   .container.text-center
     .row
       select.form-control.nameInput
-        option(value="love-letters")
-          | Love Letters
-        option(value="the-resistance")
-          | The Resistance
+        each gameOptions
+          option(value="#{id}")
+            | #{name}
     .row
       input.form-control.keyInput(type="text")
     .row

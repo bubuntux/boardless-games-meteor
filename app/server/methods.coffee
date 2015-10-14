@@ -8,10 +8,10 @@ Meteor.methods
     if not gameName
       throw new Meteor.Error "Unknown Game"
     if not gameKey
-      gameKey = Random.id 3 #TODO size in base of games
+      gameKey = Random.id 3 #TODO size in base of games or something...
 
-    board = gameName: gameName, gameKey: gameKey, players: [{id: user._id, name:user.username}],
-    minPlayers: 5, maxPlayers: 10 # TODO according to the game
+    board = gameName: gameName, gameKey: gameKey, players: [{id: user._id, name: user.username}],
+    minPlayers: GAME[gameName].minPlayers, maxPlayers: GAME[gameName].maxPlayers
 
     Boards.insert board, (error) -> throw error if error
     gameKey

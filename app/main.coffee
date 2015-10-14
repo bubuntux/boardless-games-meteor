@@ -1,3 +1,3 @@
-@GAME = #same as home option selects
+@GAME =
   'love-letters': LoveLettersDescription
-  'the-resistance': {} #TODO
+  'the-resistance': TheResistanceDescription

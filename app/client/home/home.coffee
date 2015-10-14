@@ -2,6 +2,12 @@ Template.home.helpers
   btnCreateClass: ->
     'disabled' if not Meteor.user()
 
+  gameOptions: ->
+    games = []
+    for id of GAME
+      games.push {id, name: GAME[id].name}
+    games
+
 Template.home.events
   'click .btn-create:not(.disabled)': (event, template) ->
     event.preventDefault()
