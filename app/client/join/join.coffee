@@ -1,11 +1,11 @@
 Template.join.helpers
   playerClass: ->
     board = Template.parentData().board
-    'text-success' if board.players[0] is String(@)
+    'text-success' if board.players[0].id is @.id
 
   imGameMaster: ->
     return if not @board?.players
-    @board.players[0] is Meteor.userId()
+    @board.players[0].id is Meteor.userId()
 
   btnStartClass: ->
     return if not @board?.players
@@ -15,7 +15,7 @@ Template.join.helpers
     user = Meteor.user()
     return false if not user or not @board?.players?
     if @board.players.length < @board.maxPlayers
-      me = _.find(@board.players, (p) -> p is user._id)
+      me = _.find(@board.players, (player) -> player.id is user._id)
       not me
 
 Template.join.events

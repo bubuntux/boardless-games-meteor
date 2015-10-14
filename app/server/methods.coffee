@@ -10,7 +10,7 @@ Meteor.methods
     if not gameKey
       gameKey = Random.id 3 #TODO size in base of games
 
-    board = gameName: gameName, gameKey: gameKey, players: [user._id],
+    board = gameName: gameName, gameKey: gameKey, players: [{id: user._id, name:user.username}],
     minPlayers: 5, maxPlayers: 10 # TODO according to the game
 
     Boards.insert board, (error) -> throw error if error
