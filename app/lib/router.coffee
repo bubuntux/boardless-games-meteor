@@ -7,9 +7,12 @@ Router.map ->
     render: 'home'
 
   @route '/:gameName/:gameKey', ->
-    board = Boards.findOne(gameName: @params.gameName, gameKey: @params.gameKey)
+    gameName = @params.gameName
+    gameKey = @params.gameKey
+    board = Boards.findOne({gameName, gameKey})
     if(board.started)
-      return # TODO redirect to game
+      @render gameName, data: ->
+        GAME[gameName].data(gameKey)
     else
       @render 'join', data: ->
         board: board

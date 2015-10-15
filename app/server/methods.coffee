@@ -25,8 +25,8 @@ Meteor.methods
     board = Boards.findOne({gameName, gameKey})
     if not board
       throw new Meteor.Error "Unknown Game"
-
-    #If leader and so on..
+    if board.players[0].id isnt user._id
+      throw new Meteor.Error "Not leader"
 
     GAME[gameName].startGame(board.players)
     Boards.update {gameName, gameKey}, {$set: {started: true}}

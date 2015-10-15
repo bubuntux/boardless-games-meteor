@@ -22,6 +22,7 @@ Template.join.events
   'click .btn-join': (event) ->
     event.preventDefault()
     Meteor.call 'joinGame', @board.gameName, @board.gameKey, (error) -> throw error if error
+    # TODO redirect
 
   'click .btn-start': (event)->
     event.preventDefault()

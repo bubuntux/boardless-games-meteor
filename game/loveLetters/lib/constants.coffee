@@ -4,3 +4,5 @@
   maxPlayers: 4
   startGame: (players) ->
     console.log("wooot!")
+  data: (gameKey) ->
+    console.log("awesome")
