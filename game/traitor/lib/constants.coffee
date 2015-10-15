@@ -2,7 +2,8 @@
   name: 'The Resistance'
   minPlayers: 5
   maxPlayers: 10
-  startGame: (players) ->
+  initGame: (players) ->
+  data: (gameKey) ->
     ###
     # TODO  start game, description and so on...
     gameKey = TraitorPlayers.findOne(_id: user._id)?.gameKey

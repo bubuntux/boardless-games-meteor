@@ -1,4 +1,4 @@
-Template.traitor.helpers
+Template.the_resistance.helpers
   canVote: ->
     @game.state is TraitorGameState.VICTORY or @game.state is TraitorGameState.GAME_OVER or
       @game.state is TraitorGameState.MISSION_VOTING or (@me.mission and @game.state is TraitorGameState.ON_MISSION)
@@ -33,7 +33,7 @@ Template.traitor.helpers
   identityLabel: ->
     if Session.get 'identity' then 'Hide identity' else 'Show identity'
 
-Template.traitor.events
+Template.the_resistance.events
   'click .btn-start-mission': (event) ->
     event.preventDefault()
     Meteor.call 'startMission'

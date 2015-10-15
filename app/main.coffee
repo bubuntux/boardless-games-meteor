@@ -1,3 +1,3 @@
 @GAME =
-  'love-letters': LoveLettersDescription
-  'the-resistance': TheResistanceDescription
+  'love_letters': LoveLettersDescription
+  'the_resistance': TheResistanceDescription

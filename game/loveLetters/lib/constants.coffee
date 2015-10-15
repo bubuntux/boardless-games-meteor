@@ -2,7 +2,7 @@
   name: 'Love Letters'
   minPlayers: 2
   maxPlayers: 4
-  startGame: (players) ->
+  initGame: (players) ->
     console.log("wooot!")
   data: (gameKey) ->
     console.log("awesome")

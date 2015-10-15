@@ -10,7 +10,7 @@ Router.map ->
     gameName = @params.gameName
     gameKey = @params.gameKey
     board = Boards.findOne({gameName, gameKey})
-    if(board.started)
+    if board?.started
       @render gameName, data: ->
         GAME[gameName].data(gameKey)
     else
