@@ -42,11 +42,44 @@
     shortDesc: "Lose if discarded"
     longDesc: "If you discard this card, you are out of the round"
 
+_allCards = ->
+  cards = []
+  for cardName, card of LoveLettersCards
+    _.times(card.amount, -> cards.push(card))
+  cards
+
 @LoveLettersDescription =
   name: 'Love Letters'
   minPlayers: 2
   maxPlayers: 4
-  initGame: (players) ->
-    console.log("wooot!")
+  initGame: (gameKey, players) ->
+    remainCards = _.shuffle _allCards()
+    discarded = remainCards.shift()
+    order = 0
+    for player in players
+      player.order = order++
+      player.cards = [remainCards.shift()]
+      player.protected = false
+      player.victories = 0
+    LoveLetters.upsert gameKey,
+      $set:
+        _id: gameKey
+        players: players
+        remainCards: remainCards
+        discarded: discarded
+        playedCards: []
   data: (gameKey) ->
     LoveLetters.findOne(gameKey)
+
+Meteor.methods
+  love_letters_play: (gameKey, card, otherPlayer, guessCard) ->
+    game = LoveLetters.findOne gameKey
+    if not game
+      throw new Meteor.Error "Invalid game"
+    player = _.find game.players, (p) -> p.cards?.length is 2
+    if player.id isnt Meteor.userId()
+      throw new Meteor.Error "not your turn buddy"
+
+
+# check if card is valid
+#

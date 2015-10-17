@@ -2,7 +2,7 @@
   name: 'The Resistance'
   minPlayers: 5
   maxPlayers: 10
-  initGame: (players) ->
+  initGame: (gameKey, players) ->
   data: (gameKey) ->
     ###
     # TODO  start game, description and so on...

@@ -28,5 +28,5 @@ Meteor.methods
     if board.players[0].id isnt user._id
       throw new Meteor.Error "Not leader"
 
-    GAME[gameName].initGame(board.players)
+    GAME[gameName].initGame(gameKey, board.players)
     Boards.update {gameName, gameKey}, {$set: {started: true}}
