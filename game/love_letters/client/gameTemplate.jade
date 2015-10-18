@@ -5,17 +5,31 @@ template(name="love_letters")
         | Played cards
       each cards
         .col-xs-1
-          | #{this.name} : #{cardCount}
+          .radio
+            label
+              input(type="radio", name="cardRadio")
+              | #{this.name} : #{cardCount}
       .col-xs-1
         | discarded: ?
     .row
       each players
-        .col-xs-2
-          | #{this.name}
+        .col-xs-offset-1.col-xs-2
+          //TODO if myTurn
+          .radio
+            label
+              input(type="radio", name="playerRadio")
+              | #{this.name}
         //TODO check if you can see his card
     .row
       .col-xs-offset-2.col-xs-3
         | Your card
       each myCards
         .col-xs-2
-          | #{this}
+          .radio
+            label
+              input(type="radio", name="myCardRadio")
+              | #{this}
+    .row
+      if myTurn
+        .btn.btn-default.btn-play
+          | Play
