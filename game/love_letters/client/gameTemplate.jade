@@ -1,2 +1,19 @@
 template(name="love_letters")
-  p Love Letters Game :)
+  .container-fluid.text-center
+    .row
+      .col-xs-1
+        | Played cards
+      each cards
+        .col-xs-1
+          | #{this.name} : #{cardCount}
+      .col-xs-1
+        | discarded: ?
+    .row
+      each players
+        .col-xs-2
+          | #{this.name}
+        //TODO check if you can see his card
+    .row
+      .col-xs-offset-2.col-xs-3
+        | Your card
+      .col-xs-2
