@@ -1,3 +1,8 @@
+Template.love_letters.onCreated ->
+  me = _.find(@data.players, (p) -> p.id is Meteor.userId())
+  Session.set 'me', me
+  Session.set 'myTurn', me?.cards.length > 1
+
 Template.love_letters.helpers
   cards: ->
     LoveLettersCards
@@ -11,7 +16,7 @@ Template.love_letters.helpers
     cardValues = _.find(@players, (p) -> p.id is Meteor.userId()).cards
     _.map cardValues, (c) -> LoveLettersCards[c - 1].name # TODO -1 =/
   myTurn: ->
-    _.find(@players, (p) -> p.id is Meteor.userId()).cards.length >= 2
+    Session.get 'myTurn'
 
 Template.love_letters.events
   'click .btn-play': (event) ->

@@ -1,0 +1,48 @@
+template(name="love_letters")
+  .container-fluid.text-center
+    .row
+      .col-xs-1
+        | Played cards
+      each cards
+        .col-xs-1
+          if myTurn
+            .radio
+              label
+                input(type="radio", name="cardRadio")
+                | #{this.name} : #{cardCount}
+          else
+            | #{this.name} : #{cardCount}
+      .col-xs-1
+        | discarded: ?
+    hr
+    .row
+      .col-xs-2
+        | Players
+      each players
+        .col-xs-offset-1.col-xs-2
+          if myTurn
+            .radio
+              label
+                input(type="radio", name="playerRadio")
+                | #{this.name}
+          else
+            | #{this.name}
+        //TODO check if you can see his card
+    hr
+    .row
+      .col-xs-offset-2.col-xs-3
+        | Your card
+      each myCards
+        .col-xs-2
+          if myTurn
+            .radio
+              label
+                input(type="radio", name="myCardRadio")
+                | #{this}
+          else
+            | #{this}
+    hr
+    .row
+      if myTurn
+        .btn.btn-default.btn-play
+          | Play
