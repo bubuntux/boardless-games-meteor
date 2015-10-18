@@ -96,6 +96,9 @@ _allCards = ->
 
 Meteor.methods
   love_letters_play: (gameKey, card, otherPlayerId, guessCard) ->
+    check card, Number
+    check otherPlayerId, String
+    check guessCard, Number
     game = LoveLetters.findOne gameKey
     if not game
       throw new Meteor.Error "Invalid game"

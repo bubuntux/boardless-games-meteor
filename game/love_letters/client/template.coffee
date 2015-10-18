@@ -14,10 +14,14 @@ Template.love_letters.helpers
     count
   myCards: ->
     cardValues = _.find(@players, (p) -> p.id is Meteor.userId()).cards
-    _.map cardValues, (c) -> LoveLettersCards[c - 1].name # TODO -1 =/
+    _.map cardValues, (c) -> value: c, name: LoveLettersCards[c - 1].name # TODO -1 =/
   myTurn: ->
     Session.get 'myTurn'
 
 Template.love_letters.events
-  'click .btn-play': (event) ->
+  'click .btn-play': (event, template) ->
     event.preventDefault()
+    card = parseInt template.find('input:radio[name=myCardRadio]:checked').value
+    otherPlayerId = template.find('input:radio[name=playerRadio]:checked').value
+    guessCard = parseInt template.find('input:radio[name=cardRadio]:checked').value
+    Meteor.call 'love_letters_play', @_id, card, otherPlayerId, guessCard, (error) -> alert error if error

@@ -6,13 +6,13 @@ template(name="love_letters")
       each cards
         if myTurn
           label.btn.btn-default
-            input(type='radio', name="cardRadio")
-            | #{this.name}
+            input(type='radio', name="cardRadio", value="#{value}")
+            | #{name}
             br
             | #{cardCount}
         else
           .col-xs-1
-            | #{this.name}
+            | #{name}
             br
             | #{cardCount}
       .col-xs-1
@@ -23,11 +23,11 @@ template(name="love_letters")
       each players
         if myTurn
           label.btn.btn-default
-            input(type="radio", name="playerRadio")
-            | #{this.name}
+            input(type="radio", name="playerRadio", value="#{id}")
+            | #{name}
         else
           .col-xs-2
-            | #{this.name}
+            | #{name}
     br
     br
     | Your card
@@ -36,11 +36,12 @@ template(name="love_letters")
       each myCards
         if myTurn
           label.btn.btn-default
-            input(type="radio", name="myCardRadio")
-            | #{this}
+            input(type="radio", name="myCardRadio", value="#{value}")
+            | #{name}
         else
-          .col-xs-offset-1.col-xs-2
-            | #{this}
+          .col-xs-2
+            | #{name}
+    br
     br
     .row
       if myTurn
