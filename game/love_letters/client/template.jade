@@ -22,11 +22,11 @@ template(name="love_letters")
     .row.btn-group(data-toggle="buttons")
       each players
         if myTurn
-          label.btn.btn-default
+          label.btn.btn-default(class="#{playerClass}")
             input(type="radio", name="playerRadio", value="#{id}")
             | #{name}
         else
-          .col-xs-2
+          .col-xs-2(class="#{playerClass}")
             | #{name}
     br
     br

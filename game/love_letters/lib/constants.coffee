@@ -115,6 +115,8 @@ Meteor.methods
       otherPlayer = _.find game.players, (p)-> p.id is otherPlayerId
       if not otherPlayer
         throw new Meteor.Error "Invalid target"
+      if otherPlayer.cards.length is 0
+        throw new Meteor.Error "Invalid target, he already lost"
       if otherPlayer.id is player.id and not cardObj.validOnYourself
         throw new Meteor.Error "You can't play this card on yourself"
 
