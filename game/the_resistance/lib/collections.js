@@ -1,9 +1,9 @@
 //TODO collections 2 ?
-TraitorPlayers = new Mongo.Collection('traitorPlayers');
+ResistancePlayers = new Mongo.Collection('ResistancePlayers');
 
-TraitorGames = new Mongo.Collection('traitorGames');
+ResistanceGames = new Mongo.Collection('ResistanceGames');
 
-TraitorConstant = {
+ResistanceConstants = {
     MAX_MISSIONS: 5,
     MISSIONS_TO_WIN: 3,
     MIN_PLAYERS: 5,
@@ -23,7 +23,7 @@ TraitorConstant = {
     }
 };
 
-TraitorGameState = {
+ResistanceGameState = {
     PLAYER_SELECTION: 1,
     MISSION_VOTING: 2,
     ON_MISSION: 3,

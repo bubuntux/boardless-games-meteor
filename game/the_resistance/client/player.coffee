@@ -2,7 +2,7 @@ Template.player.helpers
   playerClass: ->
     parentData = Template.parentData()
     playerClass = ''
-    if parentData.game.state is TraitorGameState.PLAYER_SELECTION and parentData.me.leader
+    if parentData.game.state is ResistanceGameState.PLAYER_SELECTION and parentData.me.leader
       playerClass = 'btn btn-default btn-player'
       if @mission
         playerClass += ' active'

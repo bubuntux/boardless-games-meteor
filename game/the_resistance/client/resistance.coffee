@@ -1,28 +1,28 @@
 Template.the_resistance.helpers
   canVote: ->
-    @game.state is TraitorGameState.VICTORY or @game.state is TraitorGameState.GAME_OVER or
-      @game.state is TraitorGameState.MISSION_VOTING or (@me.mission and @game.state is TraitorGameState.ON_MISSION)
+    @game.state is ResistanceGameState.VICTORY or @game.state is ResistanceGameState.GAME_OVER or
+      @game.state is ResistanceGameState.MISSION_VOTING or (@me.mission and @game.state is ResistanceGameState.ON_MISSION)
 
   canStartMission: ->
-    @me.leader and @game.state is TraitorGameState.PLAYER_SELECTION
+    @me.leader and @game.state is ResistanceGameState.PLAYER_SELECTION
 
   showStartMissionBtn: ->
     playersOnMission = _.filter(@players, (player) -> player.mission).length
-    playersOnMission is TraitorConstant.PLAYERS_PER_ROUND[@players.length][@game.rounds.length]
+    playersOnMission is ResistanceConstants.PLAYERS_PER_ROUND[@players.length][@game.rounds.length]
 
   playersPerMissions: ->
-    TraitorConstant.PLAYERS_PER_ROUND[@players.length]
+    ResistanceConstants.PLAYERS_PER_ROUND[@players.length]
 
   playersPerMission: ->
-    TraitorConstant.PLAYERS_PER_ROUND[@players.length][@game.rounds.length]
+    ResistanceConstants.PLAYERS_PER_ROUND[@players.length][@game.rounds.length]
 
   gameState: ->
     switch @game.state
-      when TraitorGameState.PLAYER_SELECTION then "Player Selection"
-      when TraitorGameState.MISSION_VOTING then "Mission voting"
-      when TraitorGameState.ON_MISSION then "On mission"
-      when TraitorGameState.VICTORY then "Victory"
-      when TraitorGameState.GAME_OVER then "Game Over"
+      when ResistanceGameState.PLAYER_SELECTION then "Player Selection"
+      when ResistanceGameState.MISSION_VOTING then "Mission voting"
+      when ResistanceGameState.ON_MISSION then "On mission"
+      when ResistanceGameState.VICTORY then "Victory"
+      when ResistanceGameState.GAME_OVER then "Game Over"
 
   yesBtnClass: ->
     'active' if @me.secret_vote is true
