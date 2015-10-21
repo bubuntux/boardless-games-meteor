@@ -27,9 +27,15 @@ template(name="love_letters")
           label.btn.btn-default(class="#{playerClass}")
             input(type="radio", name="playerRadio", value="#{id}")
             | #{name}
+            .text-danger
+              | #{dontHave}
         else
           .col-xs-2(class="#{playerClass}")
-            | #{name} #{peek}
+            | #{name}
+            .text-success
+              | #{peek}
+            .text-danger
+              | #{dontHave}
     br
     br
     | Your card

@@ -130,7 +130,10 @@ Meteor.methods
     player.cards = _.without player.cards, card
     player.cards = [card] if player.cards.length is 0
     player.protected = false
-    _.each(game.players, (p)-> p.see = undefined ) #TODO improve with unset?
+    _.each(game.players, (p)->
+      p.see = undefined
+      p.dontHave = undefined
+    ) #TODO improve with unset?
     game.playedCards.push card
 
     switch card
@@ -138,7 +141,7 @@ Meteor.methods
         if not otherPlayer.protected and _.contains otherPlayer.cards, guessCard
           game.playedCards.push(otherPlayer.cards.pop())
         else
-          some = '' #TODO see or something?
+          otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
       when Priest.value
         if not otherPlayer.protected
           player.see = otherPlayer.id
