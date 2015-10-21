@@ -96,6 +96,9 @@ _allCards = ->
 
 Meteor.methods
   love_letters_play: (gameKey, card, otherPlayerId, guessCard) ->
+    check card, Number if card
+    check otherPlayerId, String if otherPlayerId
+    check guessCard, Number if guessCard
     game = LoveLetters.findOne gameKey
     if not game
       throw new Meteor.Error "Invalid game"
@@ -112,6 +115,8 @@ Meteor.methods
       otherPlayer = _.find game.players, (p)-> p.id is otherPlayerId
       if not otherPlayer
         throw new Meteor.Error "Invalid target"
+      if otherPlayer.cards.length is 0
+        throw new Meteor.Error "Invalid target, he already lost"
       if otherPlayer.id is player.id and not cardObj.validOnYourself
         throw new Meteor.Error "You can't play this card on yourself"
 
@@ -125,13 +130,18 @@ Meteor.methods
     player.cards = _.without player.cards, card
     player.cards = [card] if player.cards.length is 0
     player.protected = false
-    player.see = undefined for player in game.players #TODO improve with unset?
+    _.each(game.players, (p)->
+      p.see = undefined
+      p.dontHave = undefined
+    ) #TODO improve with unset?
     game.playedCards.push card
 
     switch card
       when Guard.value
         if not otherPlayer.protected and _.contains otherPlayer.cards, guessCard
           game.playedCards.push(otherPlayer.cards.pop())
+        else
+          otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
       when Priest.value
         if not otherPlayer.protected
           player.see = otherPlayer.id
@@ -158,9 +168,9 @@ Meteor.methods
     #TODO the game still?
     if game.remainCards.length > 0
       nextPlayer = _.find game.players, (p)-> p.order is player.order + 1
-      nextPlayer = _.find game.players, (p)-> p.order is 0 if not nextPlayer
+      nextPlayer = _.find(game.players, (p)-> p.order is 0) if not nextPlayer
       nextPlayer.cards.push game.remainCards.shift()
     else
-      #TODO
-
+#TODO
+    delete game._id
     LoveLetters.update gameKey, $set: game
