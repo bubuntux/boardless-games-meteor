@@ -17,6 +17,8 @@ Template.love_letters.helpers
     _.map cardValues, (c) -> value: c, name: LoveLettersCards[c - 1].name # TODO -1 =/
   myTurn: ->
     Session.get 'myTurn'
+  cardClass: ->
+    if @.value is Guard.value then 'disabled' else ' '
   playerClass: ->
     if @.protected
       return 'text-info'
@@ -25,7 +27,9 @@ Template.love_letters.helpers
     if @.cards.length is 0
       return 'text-danger'
     return ' '
-
+  peek: ->
+    me = Session.get 'me'
+    '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id
 
 Template.love_letters.events
   'click .btn-play': (event, template) ->

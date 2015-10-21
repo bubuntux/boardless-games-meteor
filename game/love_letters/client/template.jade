@@ -5,7 +5,7 @@ template(name="love_letters")
         | Played cards
       each cards
         if myTurn
-          label.btn.btn-default
+          label.btn.btn-default(class="#{cardClass}")
             input(type='radio', name="cardRadio", value="#{value}")
             | #{name}
             br
@@ -17,6 +17,8 @@ template(name="love_letters")
             | #{cardCount}
       .col-xs-1
         | discarded: ?
+      .col-xs-1
+        | remainCards: #{remainCards.length}
     br
     br
     .row.btn-group(data-toggle="buttons")
@@ -27,7 +29,7 @@ template(name="love_letters")
             | #{name}
         else
           .col-xs-2(class="#{playerClass}")
-            | #{name}
+            | #{name} #{peek}
     br
     br
     | Your card
