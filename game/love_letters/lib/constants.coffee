@@ -138,10 +138,11 @@ Meteor.methods
 
     switch card
       when Guard.value
-        if not otherPlayer.protected and _.contains otherPlayer.cards, guessCard
-          game.playedCards.push(otherPlayer.cards.pop())
-        else
-          otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
+        if not otherPlayer.protected
+          if _.contains otherPlayer.cards, guessCard
+            game.playedCards.push(otherPlayer.cards.pop())
+          else
+            otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
       when Priest.value
         if not otherPlayer.protected
           player.see = otherPlayer.id
@@ -159,11 +160,13 @@ Meteor.methods
           if game.remainCards.length > 0
             otherPlayer.cards = [game.remainCards.shift()]
       when King.value
-        aux = player.cards
-        player.cards = otherPlayer.cards
-        otherPlayer.cards = aux
+        if not otherPlayer.protected
+          aux = player.cards
+          player.cards = otherPlayer.cards
+          otherPlayer.cards = aux
       when Princess.value
         game.playedCards.push(player.cards.pop())
+
 
     #TODO the game still?
     if game.remainCards.length > 0
