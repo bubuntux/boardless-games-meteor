@@ -1,10 +1,11 @@
 template(name="love_letters")
   #screens
-    .empty
+    .container
       //.screen.rules
         | Rules // TODO!
-      .screen.list-of-cards.container
-        | List of Cards
+      .screen.list-of-cards
+        .row.text-center
+          | List of Cards
         each gameCard
           .row
             | #{value} - #{name} (#{amount}) : #{shortDesc}
