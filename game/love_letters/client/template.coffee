@@ -2,7 +2,7 @@ Template.love_letters.onRendered ->
   myScroll = new IScroll('#screens',
     mouseWheel: true
     click: true
-    snap: '.screen') # TODO check?
+    snap: '.screen')
 
 Template.love_letters.onCreated ->
   @.autorun ->

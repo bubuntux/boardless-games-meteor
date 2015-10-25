@@ -1,17 +1,16 @@
 template(name="love_letters")
   #screens
-    ul
-      //li.rules
+    .empty
+      //.screen.rules
         | Rules // TODO!
-      li.screen.list-of-cards
+      .screen.list-of-cards.container
         | List of Cards
         each gameCard
           .row
             | #{value} - #{name} (#{amount}) : #{shortDesc}
-          br
-      li.screen.played-cards
+      .screen.played-cards
         | Played cards
-      li.screen.hand-cards
+      .screen.hand-cards
         | Hand Card(s)
 
   //
