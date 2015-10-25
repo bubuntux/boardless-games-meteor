@@ -1,0 +1,12 @@
+#scroller {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+#scroller li {
+    height: 100vh
+}

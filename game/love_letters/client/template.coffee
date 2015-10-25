@@ -1,3 +1,9 @@
+Template.love_letters.onRendered ->
+  myScroll = new IScroll('#scroller',
+    mouseWheel: true
+    click: true
+    snap: 'li') # TODO check?
+
 Template.love_letters.onCreated ->
   @.autorun ->
     me = _.find(Template.currentData().players, (p) -> p.id is Meteor.userId())
@@ -32,6 +38,8 @@ Template.love_letters.helpers
     '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id
 
 Template.love_letters.events
+  'touchmove': (event) ->
+    event.preventDefault()
   'click .btn-play': (event, template) ->
     event.preventDefault()
     card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value
