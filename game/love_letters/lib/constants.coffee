@@ -1,58 +1,12 @@
 @LoveLetters = new Mongo.Collection('love_letters')
-
-@Guard =
-  value: 1
-  amount: 5
-  name: "Guard"
-  shortDesc: "Guess a player's hand."
-  targetRequired: true
-
-@Priest =
-  value: 2
-  amount: 2
-  name: "Priest"
-  shortDesc: "Look at a hand."
-  targetRequired: true
-
-@Baron =
-  value: 3
-  amount: 2
-  name: "Baron"
-  shortDesc: "Compare hands; lower hand is out."
-  targetRequired: true
-
-@Handmaid =
-  value: 4
-  amount: 2
-  name: "Handmaid"
-  shortDesc: "Protection until your next turn."
-
-@Prince =
-  value: 5
-  amount: 2
-  name: "Prince"
-  shortDesc: "One player discards his or her hand."
-  validOnYourself: true
-
-@King =
-  value: 6
-  amount: 1
-  name: "King"
-  shortDesc: "Trade hands."
-  targetRequired: true
-
-@Countess =
-  value: 7
-  amount: 1
-  name: "Countess"
-  shortDesc: "Discard if caught with King or Prince."
-
-@Princess =
-  value: 8
-  amount: 1
-  name: "Princess"
-  shortDesc: "Lose if discarded."
-
+@Guard = value: 1, amount: 5, name: "Guard", shortDesc: "Guess a player's hand.", targetRequired: true
+@Priest = value: 2, amount: 2, name: "Priest", shortDesc: "Look at a hand.", targetRequired: true
+@Baron = value: 3, amount: 2, name: "Baron", shortDesc: "Compare hands; lower hand is out.", targetRequired: true
+@Handmaid = value: 4, amount: 2, name: "Handmaid", shortDesc: "Protection until your next turn."
+@Prince = value: 5, amount: 2, name: "Prince", shortDesc: "One player discards his or her hand.", validOnYourself: true
+@King = value: 6, amount: 1, name: "King", shortDesc: "Trade hands.", targetRequired: true
+@Countess = value: 7, amount: 1, name: "Countess", shortDesc: "Discard if caught with King or Prince."
+@Princess = value: 8, amount: 1, name: "Princess", shortDesc: "Lose if discarded."
 @LoveLettersCards = [Guard, Priest, Baron, Handmaid, Prince, King, Countess, Princess]
 
 _allCards = ->
@@ -61,13 +15,14 @@ _allCards = ->
     _.times(card.amount, -> cards.push(card.value))
   cards
 
-newGame = (players) ->
+_newGame = (players) ->
   remainCards = _.shuffle _allCards()
   discarded = remainCards.shift()
   order = 0
   for player in _.shuffle players
     player.order = order++
     player.cards = [remainCards.shift()]
+    player.playedCards = []
     player.protected = false
     player.see = undefined
     player.dontHave = undefined
@@ -75,15 +30,14 @@ newGame = (players) ->
   players: players
   remainCards: remainCards
   discarded: discarded
-  playedCards: []
 
 @LoveLettersDescription =
   name: 'Love Letters'
   minPlayers: 2
   maxPlayers: 4
   initGame: (gameKey, players) ->
-    game = newGame(players)
-    _.each(game.players, (p)-> p.victories = 0)
+    game = _newGame(players)
+    _.each(game.players, (p)-> p.rounds = 0)
     LoveLetters.upsert gameKey, $set: game
   data: (gameKey) ->
     LoveLetters.findOne(gameKey)
@@ -128,13 +82,13 @@ Meteor.methods
       p.see = undefined
       p.dontHave = undefined
     ) #TODO improve with unset?
-    game.playedCards.push card
+    player.playedCards.push card
 
     switch card
       when Guard.value
         if not otherPlayer.protected
           if _.contains otherPlayer.cards, guessCard
-            game.playedCards.push(otherPlayer.cards.pop())
+            otherPlayer.playedCards.push(otherPlayer.cards.pop())
           else
             otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
       when Priest.value
@@ -143,14 +97,14 @@ Meteor.methods
       when Baron.value
         if not otherPlayer.protected
           if _.first(player.cards) > _.first(otherPlayer.cards)
-            game.playedCards.push(otherPlayer.cards.pop())
+            otherPlayer.playedCards.push(otherPlayer.cards.pop())
           else if _.first(otherPlayer.cards) > _.first(player.cards)
-            game.playedCards.push(player.cards.pop())
+            player.playedCards.push(player.cards.pop())
       when Handmaid.value
         player.protected = true
       when Prince.value
         if not otherPlayer.protected
-          game.playedCards.push(otherPlayer.cards.pop())
+          otherPlayer.playedCards.push(otherPlayer.cards.pop())
           if game.remainCards.length > 0
             otherPlayer.cards = [game.remainCards.shift()]
       when King.value
@@ -159,13 +113,13 @@ Meteor.methods
           player.cards = otherPlayer.cards
           otherPlayer.cards = aux
       when Princess.value
-        game.playedCards.push(player.cards.pop())
+        player.playedCards.push(player.cards.pop())
 
     if game.remainCards.length > 0
       playersWithOneCard = _.filter(game.players, (p)-> p.cards.length is 1)
       if playersWithOneCard.length is 1
-        _.first(playersWithOneCard).victories++
-        game = newGame(game.players)
+        _.first(playersWithOneCard).rounds++
+        game = _newGame(game.players)
       else
         nextPlayer = _.find game.players, (p)-> p.order is player.order + 1
         nextPlayer = _.find(game.players, (p)-> p.order is 0) if not nextPlayer
@@ -173,8 +127,8 @@ Meteor.methods
     else
       winner = _.max game.players, (p) -> _.first(p.cards)
       if winner
-        _.each(game.players, (p) -> p.victories++ if _.first(p.cards) is _.first(winner.cards))
-        game = newGame(game.players)
+        _.each(game.players, (p) -> p.rounds++ if _.first(p.cards) is _.first(winner.cards))
+        game = _newGame(game.players)
 
     delete game._id
     LoveLetters.update gameKey, $set: game

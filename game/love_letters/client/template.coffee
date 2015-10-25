@@ -1,9 +1,6 @@
 Template.love_letters.onRendered ->
   new WOW().init()
-  myScroll = new IScroll('#screens',
-    mouseWheel: true
-    click: true
-    snap: '.screen')
+  new IScroll('#screens', {mouseWheel: true, click: true, snap: '.screen'})
 
 Template.love_letters.onCreated ->
   @.autorun ->
@@ -14,6 +11,8 @@ Template.love_letters.onCreated ->
 Template.love_letters.helpers
   gameCard: ->
     _.sortBy LoveLettersCards, (c) -> -c.value
+  playedCards: ->
+    Session.get('me')?.playedCards
   cardCount: ->
     count = 0
     for card in Template.parentData().playedCards
