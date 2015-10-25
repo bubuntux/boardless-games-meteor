@@ -1,8 +1,8 @@
 Template.love_letters.onRendered ->
-  myScroll = new IScroll('#scroller',
+  myScroll = new IScroll('#screens',
     mouseWheel: true
     click: true
-    snap: 'li') # TODO check?
+    snap: '.screen') # TODO check?
 
 Template.love_letters.onCreated ->
   @.autorun ->
@@ -11,7 +11,7 @@ Template.love_letters.onCreated ->
     Session.set 'myTurn', me?.cards.length > 1
 
 Template.love_letters.helpers
-  cards: ->
+  gameCard: ->
     _.sortBy LoveLettersCards, (c) -> -c.value
   cardCount: ->
     count = 0

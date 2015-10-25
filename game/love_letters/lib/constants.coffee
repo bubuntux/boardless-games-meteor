@@ -4,54 +4,54 @@
   value: 1
   amount: 5
   name: "Guard"
-  shortDesc: "Guess a player's hand"
+  shortDesc: "Guess a player's hand."
   targetRequired: true
 
 @Priest =
   value: 2
   amount: 2
   name: "Priest"
-  shortDesc: "Look at a hand"
+  shortDesc: "Look at a hand."
   targetRequired: true
 
 @Baron =
   value: 3
   amount: 2
   name: "Baron"
-  shortDesc: "Compare hands; lower hand is out"
+  shortDesc: "Compare hands; lower hand is out."
   targetRequired: true
 
 @Handmaid =
   value: 4
   amount: 2
   name: "Handmaid"
-  shortDesc: "Protection until your next turn"
+  shortDesc: "Protection until your next turn."
 
 @Prince =
   value: 5
   amount: 2
   name: "Prince"
-  shortDesc: "One player discards his or her hand"
+  shortDesc: "One player discards his or her hand."
   validOnYourself: true
 
 @King =
   value: 6
   amount: 1
   name: "King"
-  shortDesc: "Trade hands"
+  shortDesc: "Trade hands."
   targetRequired: true
 
 @Countess =
   value: 7
   amount: 1
   name: "Countess"
-  shortDesc: "Discard if caught with King or Prince"
+  shortDesc: "Discard if caught with King or Prince."
 
 @Princess =
   value: 8
   amount: 1
   name: "Princess"
-  shortDesc: "Lose if discarded"
+  shortDesc: "Lose if discarded."
 
 @LoveLettersCards = [Guard, Priest, Baron, Handmaid, Prince, King, Countess, Princess]
 

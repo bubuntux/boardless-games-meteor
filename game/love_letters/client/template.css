@@ -1,4 +1,4 @@
-#scroller {
+#screens {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -7,6 +7,6 @@
     overflow: hidden;
 }
 
-#scroller li {
+.screen {
     height: 100vh
 }
