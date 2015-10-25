@@ -1,4 +1,5 @@
 Template.love_letters.onRendered ->
+  new WOW().init()
   myScroll = new IScroll('#screens',
     mouseWheel: true
     click: true
