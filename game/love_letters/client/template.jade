@@ -1,10 +1,18 @@
 template(name="love_letters")
   #scroller
     ul
+      //li.rules
+        | Rules // TODO!
+      li.list-of-cards
+        | List of Cards
+        each cards
+          .row
+            | #{value} - #{name} (#{amount}) : #{shortDesc}
+          br
       li.board
-        | some
+        | Played cards
       li
-        | some more
+        | Hand Card(s)
 
   //
     .container-fluid.text-center

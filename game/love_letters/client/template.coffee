@@ -12,7 +12,7 @@ Template.love_letters.onCreated ->
 
 Template.love_letters.helpers
   cards: ->
-    LoveLettersCards
+    _.sortBy LoveLettersCards, (c) -> -c.value
   cardCount: ->
     count = 0
     for card in Template.parentData().playedCards

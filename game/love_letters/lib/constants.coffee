@@ -5,7 +5,6 @@
   amount: 5
   name: "Guard"
   shortDesc: "Guess a player's hand"
-  longDesc: "Name a non-Guard card and choose another player. If that player has that card he or she is out of the round"
   targetRequired: true
 
 @Priest =
@@ -13,7 +12,6 @@
   amount: 2
   name: "Priest"
   shortDesc: "Look at a hand"
-  longDesc: "Loog at another player's hand"
   targetRequired: true
 
 @Baron =
@@ -21,7 +19,6 @@
   amount: 2
   name: "Baron"
   shortDesc: "Compare hands; lower hand is out"
-  longDesc: "You and another player secretly compare hands. The player with the lower value is out of the round"
   targetRequired: true
 
 @Handmaid =
@@ -29,14 +26,12 @@
   amount: 2
   name: "Handmaid"
   shortDesc: "Protection until your next turn"
-  longDesc: "Until your next turn, ignore all effects from other player's cards"
 
 @Prince =
   value: 5
   amount: 2
   name: "Prince"
   shortDesc: "One player discards his or her hand"
-  longDesc: "Choose any player (including yourself) to discard his or her hand and draw a new card"
   validOnYourself: true
 
 @King =
@@ -44,7 +39,6 @@
   amount: 1
   name: "King"
   shortDesc: "Trade hands"
-  longDesc: "Trade hands with another player of your choice"
   targetRequired: true
 
 @Countess =
@@ -52,14 +46,12 @@
   amount: 1
   name: "Countess"
   shortDesc: "Discard if caught with King or Prince"
-  longDesc: "If you have this card and the King or Prince in your hand, you must discard this card"
 
 @Princess =
   value: 8
   amount: 1
   name: "Princess"
   shortDesc: "Lose if discarded"
-  longDesc: "If you discard this card, you are out of the round"
 
 @LoveLettersCards = [Guard, Priest, Baron, Handmaid, Prince, King, Countess, Princess]
 
