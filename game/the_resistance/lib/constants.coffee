@@ -4,7 +4,6 @@
   maxPlayers: 10
 
   initGame: (gameKey, players) ->
-    # TODO  start game, description and so on...
     if not gameKey
       throw new Meteor.Error "invalid player"
     #Upsert this game
@@ -23,21 +22,18 @@
     for player in _.sample players, Math.ceil(players.length / ResistanceConstants.TRAITOR_DIVISOR)
       player.traitor = true
     for player in players
-      ResistancePlayers.upsert player._id,
+      ResistancePlayers.upsert player.id,
         $set:
+          gameKey: gameKey
           order: player.order
+          name : player.name
           leader: player.leader
           traitor: player.traitor
-        #$unset: # TODO check
+        $unset: # TODO check
           mission: false
           vote: false
           secret_vote: false
-    gameKey
 
   data: (gameKey) ->
-    #gameKey = @params._id
-    playersTemp = ResistancePlayers.find(gameKey: gameKey).fetch()
-    players: playersTemp
+    players: ResistancePlayers.find(gameKey: gameKey).fetch()
     game: ResistanceGames.findOne gameKey
-    me: _.find playersTemp, (player) -> player._id is Meteor.userId()
-    #TODO seems 'me' is not being set

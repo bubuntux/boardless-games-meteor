@@ -1,11 +1,16 @@
+Template.the_resistance.onCreated ->
+  @.autorun ->
+    me = _.find(Template.currentData().players, (p) -> p._id is Meteor.userId())
+    Session.set 'me', me
+
 Template.the_resistance.helpers
   canVote: ->
     @game.state is ResistanceGameState.VICTORY or @game.state is ResistanceGameState.GAME_OVER or
-      @game.state is ResistanceGameState.MISSION_VOTING or (@me.mission and @game.state is ResistanceGameState.ON_MISSION)
+      @game.state is ResistanceGameState.MISSION_VOTING or (Session.get('me').mission and @game.state is ResistanceGameState.ON_MISSION)
     #TODO: Exception in template helper: TypeError: Cannot read property 'mission' of undefined
 
   canStartMission: ->
-    @me.leader and @game.state is ResistanceGameState.PLAYER_SELECTION
+    Session.get('me').leader and @game.state is ResistanceGameState.PLAYER_SELECTION
 
   showStartMissionBtn: ->
     playersOnMission = _.filter(@players, (player) -> player.mission).length
@@ -26,10 +31,10 @@ Template.the_resistance.helpers
       when ResistanceGameState.GAME_OVER then "Game Over"
 
   yesBtnClass: ->
-    'active' if @me.secret_vote is true
+    'active' if Session.get('me').secret_vote is true
 
   noBtnClass: ->
-    'active' if @me.secret_vote is false
+    'active' if Session.get('me').secret_vote is false
 
   identityLabel: ->
     if Session.get 'identity' then 'Hide identity' else 'Show identity'
