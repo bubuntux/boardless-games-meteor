@@ -2,6 +2,7 @@ Template.the_resistance.helpers
   canVote: ->
     @game.state is ResistanceGameState.VICTORY or @game.state is ResistanceGameState.GAME_OVER or
       @game.state is ResistanceGameState.MISSION_VOTING or (@me.mission and @game.state is ResistanceGameState.ON_MISSION)
+    #TODO: Exception in template helper: TypeError: Cannot read property 'mission' of undefined
 
   canStartMission: ->
     @me.leader and @game.state is ResistanceGameState.PLAYER_SELECTION

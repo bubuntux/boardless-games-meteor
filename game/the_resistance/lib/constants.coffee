@@ -2,6 +2,7 @@
   name: 'The Resistance'
   minPlayers: 5
   maxPlayers: 10
+
   initGame: (gameKey, players) ->
     # TODO  start game, description and so on...
     if not gameKey
@@ -27,12 +28,16 @@
           order: player.order
           leader: player.leader
           traitor: player.traitor
-        $unset: # TODO check
-          mission: true
-          vote: true
-          secret_vote: true
+        #$unset: # TODO check
+          mission: false
+          vote: false
+          secret_vote: false
     gameKey
 
   data: (gameKey) ->
-    ResistanceGames.findOne(gameKey)
-
+    #gameKey = @params._id
+    playersTemp = ResistancePlayers.find(gameKey: gameKey).fetch()
+    players: playersTemp
+    game: ResistanceGames.findOne gameKey
+    me: _.find playersTemp, (player) -> player._id is Meteor.userId()
+    #TODO seems 'me' is not being set
