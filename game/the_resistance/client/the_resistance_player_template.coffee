@@ -2,7 +2,7 @@ Template.player.helpers
   playerClass: ->
     parentData = Template.parentData()
     playerClass = ''
-    if parentData.game.state is TraitorGameState.PLAYER_SELECTION and parentData.me.leader
+    if parentData.game.state is ResistanceGameState.PLAYER_SELECTION and Session.get('me').leader
       playerClass = 'btn btn-default btn-player'
       if @mission
         playerClass += ' active'
@@ -16,8 +16,7 @@ Template.player.helpers
     Session.get 'identity'
 
   infiltrator: ->
-    parentData = Template.parentData()
-    parentData.me.traitor and @traitor
+    Session.get('me').traitor and @traitor
 
 Template.player.events
   'click .btn-player': (event) ->
