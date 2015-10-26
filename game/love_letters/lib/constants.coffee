@@ -69,28 +69,30 @@ _allCards = ->
     _.times(card.amount, -> cards.push(card.value))
   cards
 
+newGame = (players) ->
+  remainCards = _.shuffle _allCards()
+  discarded = remainCards.shift()
+  order = 0
+  for player in _.shuffle players
+    player.order = order++
+    player.cards = [remainCards.shift()]
+    player.protected = false
+    player.see = undefined
+    player.dontHave = undefined
+  _.find(players, (p) -> p.order is 0).cards.push remainCards.shift()
+  players: players
+  remainCards: remainCards
+  discarded: discarded
+  playedCards: []
+
 @LoveLettersDescription =
   name: 'Love Letters'
   minPlayers: 2
   maxPlayers: 4
   initGame: (gameKey, players) ->
-    remainCards = _.shuffle _allCards()
-    discarded = remainCards.shift()
-    order = 0
-    for player in _.shuffle players
-      player.order = order++
-      player.cards = [remainCards.shift()]
-      player.victories = 0
-      player.protected = false
-      player.see = undefined
-    _.find(players, (p) -> p.order is 0).cards.push remainCards.shift()
-    LoveLetters.upsert gameKey,
-      $set:
-        _id: gameKey
-        players: players
-        remainCards: remainCards
-        discarded: discarded
-        playedCards: []
+    game = newGame(players)
+    _.each(game.players, (p)-> p.victories = 0)
+    LoveLetters.upsert gameKey, $set: game
   data: (gameKey) ->
     LoveLetters.findOne(gameKey)
 
@@ -138,18 +140,19 @@ Meteor.methods
 
     switch card
       when Guard.value
-        if not otherPlayer.protected and _.contains otherPlayer.cards, guessCard
-          game.playedCards.push(otherPlayer.cards.pop())
-        else
-          otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
+        if not otherPlayer.protected
+          if _.contains otherPlayer.cards, guessCard
+            game.playedCards.push(otherPlayer.cards.pop())
+          else
+            otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
       when Priest.value
         if not otherPlayer.protected
           player.see = otherPlayer.id
       when Baron.value
         if not otherPlayer.protected
-          if player.cards[0] > otherPlayer.cards[0]
+          if _.first(player.cards) > _.first(otherPlayer.cards)
             game.playedCards.push(otherPlayer.cards.pop())
-          else if otherPlayer.cards[0] > player.cards[0]
+          else if _.first(otherPlayer.cards) > _.first(player.cards)
             game.playedCards.push(player.cards.pop())
       when Handmaid.value
         player.protected = true
@@ -159,18 +162,27 @@ Meteor.methods
           if game.remainCards.length > 0
             otherPlayer.cards = [game.remainCards.shift()]
       when King.value
-        aux = player.cards
-        player.cards = otherPlayer.cards
-        otherPlayer.cards = aux
+        if not otherPlayer.protected
+          aux = player.cards
+          player.cards = otherPlayer.cards
+          otherPlayer.cards = aux
       when Princess.value
         game.playedCards.push(player.cards.pop())
 
-    #TODO the game still?
     if game.remainCards.length > 0
-      nextPlayer = _.find game.players, (p)-> p.order is player.order + 1
-      nextPlayer = _.find(game.players, (p)-> p.order is 0) if not nextPlayer
-      nextPlayer.cards.push game.remainCards.shift()
+      playersWithOneCard = _.filter(game.players, (p)-> p.cards.length is 1)
+      if playersWithOneCard.length is 1
+        _.first(playersWithOneCard).victories++
+        game = newGame(game.players)
+      else
+        nextPlayer = _.find game.players, (p)-> p.order is player.order + 1
+        nextPlayer = _.find(game.players, (p)-> p.order is 0) if not nextPlayer
+        nextPlayer.cards.push game.remainCards.shift()
     else
-#TODO
+      winner = _.max game.players, (p) -> _.first(p.cards)
+      if winner
+        _.each(game.players, (p) -> p.victories++ if _.first(p.cards) is _.first(winner.cards))
+        game = newGame(game.players)
+
     delete game._id
     LoveLetters.update gameKey, $set: game

@@ -26,12 +26,12 @@ template(name="love_letters")
         if myTurn
           label.btn.btn-default(class="#{playerClass}")
             input(type="radio", name="playerRadio", value="#{id}")
-            | #{name}
+            | #{victories} #{name}
             .text-danger
               | #{dontHave}
         else
           .col-xs-2(class="#{playerClass}")
-            | #{name}
+            | #{victories} #{name}
             .text-success
               | #{peek}
             .text-danger
