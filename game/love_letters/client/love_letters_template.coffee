@@ -1,9 +1,8 @@
 Template.love_letters.onRendered ->
   new WOW().init()
-  $('#screens').swipe(
-    swipe: (event, direction, distance, duration, fingerCount, fingerData)->
+  $('#screens').swipe
+    swipe: (event, direction, distance, duration, fingerCount, fingerData) ->
       console.log("swipe from callback " + direction + ' ' + distance + ' ' + duration + ' ' + fingerCount)
-  )
 
 Template.love_letters.onCreated ->
   @.autorun ->
