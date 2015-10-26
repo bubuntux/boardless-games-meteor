@@ -1,6 +1,9 @@
 Template.love_letters.onRendered ->
   new WOW().init()
-  new IScroll('#screens', {mouseWheel: true, click: true, snap: '.screen'})
+  $('#screens').swipe(
+    swipe: (event, direction, distance, duration, fingerCount, fingerData)->
+      console.log("swipe from callback " + direction + ' ' + distance + ' ' + duration + ' ' + fingerCount)
+  )
 
 Template.love_letters.onCreated ->
   @.autorun ->
@@ -38,8 +41,6 @@ Template.love_letters.helpers
     '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id
 
 Template.love_letters.events
-  'touchmove': (event) ->
-    event.preventDefault()
   'click .btn-play': (event, template) ->
     event.preventDefault()
     card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value
