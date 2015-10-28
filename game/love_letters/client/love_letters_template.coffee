@@ -2,19 +2,10 @@ _ = lodash
 
 Template.love_letters.onRendered ->
   new WOW().init()
-  $('.screen').swipe
-    swipe: (event, direction, distance, duration, fingerCount, fingerData) ->
-      if distance < 90
-        return
-      screens = $('.screen')
-      screenIndex = _.findIndex screens, (s) -> s.id is event.currentTarget.id
-      if direction is $.fn.swipe.directions.UP
-        screenIndex++
-      if direction is $.fn.swipe.directions.DOWN
-        screenIndex--
-      screenIndex = 0 if screenIndex < 0
-      screenIndex = screens.length - 1 if screenIndex >= screens.length
-      window.location.hash = '#' + screens[screenIndex].id
+  new IScroll('#screens',
+    mouseWheel: true
+    snap: '.screen'
+  )
 
 Template.love_letters.onCreated ->
   @.autorun ->
@@ -52,6 +43,8 @@ Template.love_letters.helpers
     '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id
 
 Template.love_letters.events
+  'touchmove': (event) ->
+    event.preventDefault()
   'click .btn-play': (event, template) ->
     event.preventDefault()
     card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value
