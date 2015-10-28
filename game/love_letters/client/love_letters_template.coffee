@@ -1,9 +1,9 @@
 Template.love_letters.onRendered ->
-  new WOW().init()
   new IScroll('#screens',
     mouseWheel: true
     snap: '.screen'
   )
+  new WOW().init()
 
 Template.love_letters.onCreated ->
   @.autorun ->
