@@ -1,5 +1,3 @@
-_ = lodash
-
 Template.love_letters.onRendered ->
   new WOW().init()
   new IScroll('#screens',
