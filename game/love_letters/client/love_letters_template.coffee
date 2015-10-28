@@ -1,8 +1,20 @@
+_ = lodash
+
 Template.love_letters.onRendered ->
   new WOW().init()
-  $('#screens').swipe
+  $('.screen').swipe
     swipe: (event, direction, distance, duration, fingerCount, fingerData) ->
-      console.log("swipe from callback " + direction + ' ' + distance + ' ' + duration + ' ' + fingerCount)
+      if distance < 90
+        return
+      screens = $('.screen')
+      screenIndex = _.findIndex screens, (s) -> s.id is event.currentTarget.id
+      if direction is $.fn.swipe.directions.UP
+        screenIndex++
+      if direction is $.fn.swipe.directions.DOWN
+        screenIndex--
+      screenIndex = 0 if screenIndex < 0
+      screenIndex = screens.length - 1 if screenIndex >= screens.length
+      window.location.hash = '#' + screens[screenIndex].id
 
 Template.love_letters.onCreated ->
   @.autorun ->

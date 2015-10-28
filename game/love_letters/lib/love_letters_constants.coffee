@@ -75,7 +75,7 @@ Meteor.methods
       if _.contains player.cards, King.value or _.contains player.cards, Prince.value
         throw new Meteor.Error "You MUST play the countess"
 
-    player.cards = _.without player.cards, card
+    player.cards = _.without player.cards, card # TODO lodash alternative?
     player.cards = [card] if player.cards.length is 0
     player.protected = false
     _.each(game.players, (p)->

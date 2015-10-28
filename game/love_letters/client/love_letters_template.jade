@@ -1,27 +1,43 @@
 template(name="love_letters")
-  #screens
-    .container
-      .screen.list-of-cards
-        .row.text-center
-          | List of Cards
-        each gameCard
-          .row
-            | #{value} - #{name} (#{amount}) : #{shortDesc}
-      .screen.played-cards
-        .row.text-center
-          | Played cards
-        //img.row.center-block.img-responsive(src='1.jpg', style='margin-bottom:-290px')
-        //img.row.center-block.img-responsive(src='6.jpg', style='margin-bottom:-290px')
-        //img.row.center-block.img-responsive(src='4.jpg', style='margin-bottom:-290px')
-        each playedCards
-          img.row.center-block.img-responsive(src='#{this}.jpg', style='margin-bottom:-290px')
-        .margin(style='min-height:290px')
-      .screen.hand-cards
-        .row.text-center
-          | Cards in the hand
-        .flipper.row.center-block
-          img.img-responsive(src='4.jpg', width="80%hw" height="80%vh")
-          img.img-responsive(src='2.jpg', width="80%hw" height="80%vh")
+  //
+    #navbar.navbar.navbar-inverse.navbar-fixed-top(data-spy="affix")
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(type="button", data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          .navbar-brand
+            //TODO
+            +loginButtons
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href="#list-of-cards") Link
+            li
+              a(href="#played-cards") otro link
+  #list-of-cards.screen
+    .row.text-center
+      | List of Cards
+    each gameCard
+      .row
+        | #{value} - #{name} (#{amount}) : #{shortDesc}
+  #played-cards.screen
+    .row.text-center
+      | Played cards
+    //img.row.center-block.img-responsive(src='1.jpg', style='margin-bottom:-290px')
+    //img.row.center-block.img-responsive(src='6.jpg', style='margin-bottom:-290px')
+    //img.row.center-block.img-responsive(src='4.jpg', style='margin-bottom:-290px')
+    each playedCards
+      img.row.center-block.img-responsive(src='#{this}.jpg', style='margin-bottom:-290px')
+    .margin(style='min-height:290px')
+  #hand.screen
+    .row.text-center
+      | Cards in the hand
+    .flipper.row.center-block
+      img.img-responsive(src='4.jpg')
+      img.img-responsive(src='2.jpg')
 
   //
     .container-fluid.text-center
