@@ -49,10 +49,10 @@ _selectPlayer = (event, template, data) ->
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()
-  'tap .card': (event, template, data) ->
+  'tap #hand .card': (event, template, data) ->
     event.preventDefault()
     if Session.get 'myTurn'
-      template.find('.card.selected')?.className = 'card'
+      template.find('#hand .card.selected')?.className = 'card'
       event.currentTarget.className = 'card selected'
       @.selectedCard = parseInt(event.currentTarget.lastChild.value) #TODO watch out
   'tap .player .btn': (event, template) ->
