@@ -39,6 +39,13 @@ Template.love_letters.helpers
     me = Session.get 'me'
     '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id
 
+_selectPlayer = (event, template, data) ->
+  event.preventDefault();
+  if Session.get 'myTurn'
+    template.find('.player .btn.btn-default.active')?.className = 'btn btn-default'
+    event.currentTarget.className = 'btn btn-default active'
+    data.selectedPlayer = event.currentTarget.parentElement.lastChild.value
+
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()
@@ -48,12 +55,10 @@ Template.love_letters.events
       template.find('.card.selected')?.className = 'card'
       event.currentTarget.className = 'card selected'
       @.selectedCard = parseInt(event.currentTarget.lastChild.value) #TODO watch out
+  'tap .player .btn': (event, template) ->
+    _selectPlayer(event, template, @)
   'click .player .btn': (event, template) ->
-    event.preventDefault();
-    if Session.get 'myTurn'
-      template.find('.player .btn.btn-default.active')?.className = 'btn btn-default'
-      event.currentTarget.className = 'btn btn-default active'
-      @.selectedPlayer = event.currentTarget.parentElement.lastChild.value
+    _selectPlayer(event, template, @)
   'click .btn-play': (event, template) ->
     event.preventDefault()
     card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value
