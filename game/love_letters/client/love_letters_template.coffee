@@ -1,5 +1,5 @@
 Template.love_letters.onRendered ->
-  new IScroll('#screens',
+  @.data.scroll = new IScroll('#screens',
     mouseWheel: true
     snap: '.screen'
   )
@@ -22,8 +22,7 @@ Template.love_letters.helpers
       count++ if card is @.value
     count
   myCards: ->
-    cardValues = _.find(@players, (p) -> p.id is Meteor.userId()).cards
-    _.map cardValues, (c) -> value: c, name: LoveLettersCards[c - 1].name # TODO -1 =/
+    _.find(@players, (p) -> p.id is Meteor.userId()).cards
   myTurn: ->
     Session.get 'myTurn'
   cardClass: ->
@@ -43,6 +42,18 @@ Template.love_letters.helpers
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()
+  'tap .card': (event, template, data) ->
+    event.preventDefault()
+    if Session.get 'myTurn'
+      template.find('.card.selected')?.className = 'card'
+      event.currentTarget.className = 'card selected'
+      @.selectedCard = parseInt(event.currentTarget.lastChild.value) #TODO watch out
+  'click .player .btn': (event, template) ->
+    event.preventDefault();
+    if Session.get 'myTurn'
+      template.find('.player .btn.btn-default.active')?.className = 'btn btn-default'
+      event.currentTarget.className = 'btn btn-default active'
+      @.selectedPlayer = event.currentTarget.parentElement.lastChild.value
   'click .btn-play': (event, template) ->
     event.preventDefault()
     card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value

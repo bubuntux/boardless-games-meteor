@@ -17,3 +17,14 @@
     user-select: none;
     -ms-touch-action: none;
 }
+
+.card.selected img {
+    border: lime;
+    border-width: medium;
+    border-style: dotted;
+}
+
+.player .btn{
+    padding-left: 50px;
+    padding-right: 50px;
+}

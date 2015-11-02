@@ -7,17 +7,24 @@ template(name="love_letters")
           .row #{value} - #{name} (#{amount}) : #{shortDesc}
       #played-cards.screen
         .row.text-center Played cards
-        img.row.center-block.img-responsive(src='1.jpg', style='margin-bottom:-290px')
-        img.row.center-block.img-responsive(src='6.jpg', style='margin-bottom:-290px')
-        img.row.center-block.img-responsive(src='4.jpg', style='margin-bottom:-290px')
         each playedCards
           img.row.center-block.img-responsive(src='#{this}.jpg', style='margin-bottom:-290px')
         .margin(style='min-height:290px')
       #hand.screen
         .row.text-center Cards in the hand
-        .flipper.row.center-block
-          img.img-responsive(src='4.jpg')
-          img.img-responsive(src='2.jpg')
+        .row
+          each myCards
+            .card
+              img.col-xs-6.img-responsive(src='#{this}.jpg')
+              input(type='hidden', value='#{this}')
+      #player-selection.screen
+        .row.text-center Select a Player
+        br
+        each players
+          .row.text-center.player
+            .btn.btn-default #{name}
+          br
+          input(type='hidden', value='#{id}')
 
   //
     .container-fluid.text-center
