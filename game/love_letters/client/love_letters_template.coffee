@@ -16,13 +16,14 @@ Template.love_letters.helpers
     _.sortBy LoveLettersCards, (c) -> -c.value
   playedCards: ->
     Session.get('me')?.playedCards
+  myCards: ->
+    _.find(@players, (p) -> p.id is Meteor.userId()).cards
+
   cardCount: ->
     count = 0
     for card in Template.parentData().playedCards
       count++ if card is @.value
     count
-  myCards: ->
-    _.find(@players, (p) -> p.id is Meteor.userId()).cards
   myTurn: ->
     Session.get 'myTurn'
   cardClass: ->
@@ -46,19 +47,25 @@ _selectPlayer = (event, template, data) ->
     event.currentTarget.className = 'btn btn-default active'
     data.selectedPlayer = event.currentTarget.parentElement.lastChild.value
 
+_selectCard = (screen, event, template) ->
+  event.preventDefault()
+  if Session.get 'myTurn'
+    template.find(screen + ' .card.selected')?.className = 'card'
+    event.currentTarget.className = 'card selected'
+    parseInt(event.currentTarget.lastChild.value) #TODO watch out
+
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()
-  'tap #hand .card': (event, template, data) ->
-    event.preventDefault()
-    if Session.get 'myTurn'
-      template.find('#hand .card.selected')?.className = 'card'
-      event.currentTarget.className = 'card selected'
-      @.selectedCard = parseInt(event.currentTarget.lastChild.value) #TODO watch out
+  'tap #hand .card': (event, template) ->
+    @.selectedCard = _selectCard('#hand', event, template)
+  'tap #card-selection .card': (event, template, data) ->
+    @.guessCard = _selectCard('#card-selection', event, template)
   'tap .player .btn': (event, template) ->
     _selectPlayer(event, template, @)
   'click .player .btn': (event, template) ->
     _selectPlayer(event, template, @)
+
   'click .btn-play': (event, template) ->
     event.preventDefault()
     card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value
