@@ -68,7 +68,7 @@ Meteor.methods
       if otherPlayer.id is player.id and not cardObj.validOnYourself
         throw new Meteor.Error "You can't play this card on yourself"
 
-    if card is Guard.value and guessCard is Guard.value
+    if card is Guard.value and (not guessCard or guessCard <= 0 or guessCard is Guard.value )
       throw new Meteor.Error "Invalid guess Card"
 
     if _.contains player.cards, Countess.value and card isnt Countess.value

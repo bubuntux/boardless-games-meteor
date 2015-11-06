@@ -24,7 +24,7 @@ Template.love_letters.onRendered ->
 
   if window.DeviceOrientationEvent
     window.addEventListener 'deviceorientation', (data)->
-      boardMode = data.beta < 60
+      boardMode = data.beta < 50
       if boardMode is _boardMode
         return
       if boardMode
@@ -79,14 +79,6 @@ Template.love_letters.helpers
       if player
         return name: player.name, card: player.cards[0]
 
-# TODO below
-  cardCount: ->
-    count = 0
-    for card in Template.parentData().playedCards
-      count++ if card is @.value
-    count
-
-
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()
@@ -102,14 +94,7 @@ Template.love_letters.events
     event.preventDefault();
     if _myTurn()
       _selectPlayer(event, template)
-# TODO remove below?
-  'click .player .btn': (event, template) ->
+  'click .player .btn': (event, template) -> # TODO remove?
     event.preventDefault();
     if _myTurn()
       _selectPlayer(event, template)
-  'click .btn-play': (event, template) ->
-    event.preventDefault()
-    card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value
-    otherPlayerId = template.find('input:radio[name=playerRadio]:checked')?.value
-    guessCard = parseInt template.find('input:radio[name=cardRadio]:checked')?.value
-    Meteor.call 'love_letters_play', @_id, card, otherPlayerId, guessCard, (error) -> alert error if error
