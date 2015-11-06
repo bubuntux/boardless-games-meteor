@@ -1,5 +1,5 @@
 _scroller = undefined
-_boardMode = new ReactiveVar(false)
+_boardMode = false
 _gameId = undefined
 
 _myTurn = -> Session.get 'myTurn'
@@ -24,17 +24,25 @@ Template.love_letters.onRendered ->
 
   if window.DeviceOrientationEvent
     window.addEventListener 'deviceorientation', (data)->
-      boardMode = data.beta < -45
+      boardMode = data.beta < 60
+      if boardMode is _boardMode
+        return
       if boardMode
+        _scroller.scrollToElement '#played-cards'
         if _myTurn()
-          console.log('my turn!')
-          _scroller.scrollToElement '#played-cards'
           card = parseInt(_.first($('#hand .card.selected input'))?.value)
           if card
             otherPlayerId = _.first($('#player-selection .player .btn.active').parent().find('input'))?.value
             guessCard = parseInt(_.first($('#card-selection .card.selected input'))?.value)
-            Meteor.call 'love_letters_play', _gameId, card, otherPlayerId, guessCard, (error) -> alert error if error
-      _boardMode.set boardMode
+            Meteor.call 'love_letters_play', _gameId, card, otherPlayerId, guessCard, (error) ->
+              if error
+                alert error
+              else
+                _.each $('.card.selected'), (el) -> el.className = 'card'
+                _.each $('.btn.active'), (el) -> el.className = 'btn btn-default'
+      else
+        _scroller.scrollToElement '#hand'
+      _boardMode = boardMode
       console.log('algo') #_scroller.refresh()
   else
     alert("DeviceOrientation is NOT supported")
