@@ -10,7 +10,7 @@ template(name="love_letters")
         each playedCards
           img.row.center-block.img-responsive(src='#{this}.jpg', style='margin-bottom:-290px')
         .margin(style='min-height:290px')
-      #hand.screen
+      #hand.screen(class="#{handClass}")
         .row.text-center Cards in the hand
         .row
           each myCards
@@ -64,60 +64,3 @@ template(name="love_letters")
             .card
               img.center-block.img-responsive(src='8.jpg', style='height:24vh')
               input(type='hidden', value='8')
-  //
-    .container-fluid.text-center
-      .row.btn-group(data-toggle="buttons")
-        .col-xs-1
-          | Played cards
-        each cards
-          if myTurn
-            label.btn.btn-default(class="#{cardClass}")
-              input(type='radio', name="cardRadio", value="#{value}")
-              | #{name}
-              br
-              | #{cardCount}
-          else
-            .col-xs-1
-              | #{name}
-              br
-              | #{cardCount}
-        .col-xs-1
-          | discarded: ?
-        .col-xs-1
-          | remainCards: #{remainCards.length}
-      br
-      br
-      .row.btn-group(data-toggle="buttons")
-        each players
-          if myTurn
-            label.btn.btn-default(class="#{playerClass}")
-              input(type="radio", name="playerRadio", value="#{id}")
-              | #{victories} #{name}
-              .text-danger
-                | #{dontHave}
-          else
-            .col-xs-2(class="#{playerClass}")
-              | #{victories} #{name}
-              .text-success
-                | #{peek}
-              .text-danger
-                | #{dontHave}
-      br
-      br
-      | Your card
-      br
-      .row.btn-group(data-toggle="buttons")
-        each myCards
-          if myTurn
-            label.btn.btn-default
-              input(type="radio", name="myCardRadio", value="#{value}")
-              | #{name}
-          else
-            .col-xs-2
-              | #{name}
-      br
-      br
-      .row
-        if myTurn
-          .btn.btn-default.btn-play
-            | Play

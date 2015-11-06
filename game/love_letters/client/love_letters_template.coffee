@@ -60,24 +60,21 @@ Template.love_letters.helpers
     Session.get('me')?.playedCards
   myCards: ->
     _.find(@players, (p) -> p.id is Meteor.userId()).cards
-# TODO remove below?
+  handClass: ->
+    me = Session.get('me')
+    if me?.protected
+      return 'protected'
+    if me?.cards.length > 1
+      return 'turn'
+    if me?.cards.length is 0
+      return 'out'
+    return ''
+# TODO below
   cardCount: ->
     count = 0
     for card in Template.parentData().playedCards
       count++ if card is @.value
     count
-  myTurn: ->
-    _myTurn()
-  cardClass: ->
-    if @.value is Guard.value then 'disabled' else ' '
-  playerClass: ->
-    if @.protected
-      return 'text-info'
-    if @.cards.length > 1
-      return 'text-success'
-    if @.cards.length is 0
-      return 'text-danger'
-    return ' '
   peek: ->
     me = Session.get 'me'
     '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id

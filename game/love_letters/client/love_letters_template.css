@@ -18,6 +18,18 @@
     -ms-touch-action: none;
 }
 
+.protected {
+    background: darkcyan;
+}
+
+.out {
+    background: darkred;
+}
+
+.turn {
+    background: darkgreen;
+}
+
 .card.selected img {
     border: lime;
     border-width: medium;
