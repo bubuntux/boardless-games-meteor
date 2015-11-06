@@ -90,7 +90,7 @@ Meteor.methods
           if _.contains otherPlayer.cards, guessCard
             otherPlayer.playedCards.push(otherPlayer.cards.pop())
           else
-            otherPlayer.dontHave = LoveLettersCards[guessCard - 1].name
+            otherPlayer.dontHave = guessCard
       when Priest.value
         if not otherPlayer.protected
           player.see = otherPlayer.id

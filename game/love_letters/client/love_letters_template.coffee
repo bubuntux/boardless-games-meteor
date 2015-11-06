@@ -69,6 +69,9 @@ Template.love_letters.helpers
     if me?.cards.length is 0
       return 'out'
     return ''
+  dontHave: ->
+    me = Session.get 'me'
+    me?.dontHave
   peek: ->
     me = Session.get 'me'
     if me?.see
