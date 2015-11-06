@@ -1,9 +1,43 @@
+_scroller = undefined
+_boardMode = new ReactiveVar(false)
+_gameId = undefined
+
+_myTurn = -> Session.get 'myTurn'
+
+_selectPlayer = (event, template) ->
+  template.find('.player .btn.btn-default.active')?.className = 'btn btn-default'
+  event.currentTarget.className = 'btn btn-default active'
+
+_selectCard = (screen, event, template) ->
+  template.find(screen + ' .card.selected')?.className = 'card'
+  event.currentTarget.className = 'card selected'
+
+Template.love_letters.onCreated ->
+  _gameId = Template.currentData()._id
+
 Template.love_letters.onRendered ->
-  @.data.scroll = new IScroll('#screens',
+  new WOW().init()
+  _scroller = new IScroll('#screens',
     mouseWheel: true
     snap: '.screen'
   )
-  new WOW().init()
+
+  if window.DeviceOrientationEvent
+    window.addEventListener 'deviceorientation', (data)->
+      boardMode = data.beta < -45
+      if boardMode
+        if _myTurn()
+          console.log('my turn!')
+          _scroller.scrollToElement '#played-cards'
+          card = parseInt(_.first($('#hand .card.selected input'))?.value)
+          if card
+            otherPlayerId = _.first($('#player-selection .player .btn.active').parent().find('input'))?.value
+            guessCard = parseInt(_.first($('#card-selection .card.selected input'))?.value)
+            Meteor.call 'love_letters_play', _gameId, card, otherPlayerId, guessCard, (error) -> alert error if error
+      _boardMode.set boardMode
+      console.log('algo') #_scroller.refresh()
+  else
+    alert("DeviceOrientation is NOT supported")
 
 Template.love_letters.onCreated ->
   @.autorun ->
@@ -18,14 +52,14 @@ Template.love_letters.helpers
     Session.get('me')?.playedCards
   myCards: ->
     _.find(@players, (p) -> p.id is Meteor.userId()).cards
-
+# TODO remove below?
   cardCount: ->
     count = 0
     for card in Template.parentData().playedCards
       count++ if card is @.value
     count
   myTurn: ->
-    Session.get 'myTurn'
+    _myTurn()
   cardClass: ->
     if @.value is Guard.value then 'disabled' else ' '
   playerClass: ->
@@ -40,32 +74,26 @@ Template.love_letters.helpers
     me = Session.get 'me'
     '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id
 
-_selectPlayer = (event, template, data) ->
-  event.preventDefault();
-  if Session.get 'myTurn'
-    template.find('.player .btn.btn-default.active')?.className = 'btn btn-default'
-    event.currentTarget.className = 'btn btn-default active'
-    data.selectedPlayer = event.currentTarget.parentElement.lastChild.value
-
-_selectCard = (screen, event, template) ->
-  event.preventDefault()
-  if Session.get 'myTurn'
-    template.find(screen + ' .card.selected')?.className = 'card'
-    event.currentTarget.className = 'card selected'
-    parseInt(event.currentTarget.lastChild.value) #TODO watch out
-
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()
   'tap #hand .card': (event, template) ->
-    @.selectedCard = _selectCard('#hand', event, template)
-  'tap #card-selection .card': (event, template, data) ->
-    @.guessCard = _selectCard('#card-selection', event, template)
+    event.preventDefault()
+    if _myTurn()
+      _selectCard('#hand', event, template)
+  'tap #card-selection .card': (event, template) ->
+    event.preventDefault()
+    if _myTurn()
+      _selectCard('#card-selection', event, template)
   'tap .player .btn': (event, template) ->
-    _selectPlayer(event, template, @)
+    event.preventDefault();
+    if _myTurn()
+      _selectPlayer(event, template)
+# TODO remove below?
   'click .player .btn': (event, template) ->
-    _selectPlayer(event, template, @)
-
+    event.preventDefault();
+    if _myTurn()
+      _selectPlayer(event, template)
   'click .btn-play': (event, template) ->
     event.preventDefault()
     card = parseInt template.find('input:radio[name=myCardRadio]:checked')?.value

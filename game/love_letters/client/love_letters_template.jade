@@ -15,16 +15,17 @@ template(name="love_letters")
         .row
           each myCards
             .card
-              img.col-xs-6.img-responsive(src='#{this}.jpg')
-              input(type='hidden', value='#{this}')
+              .col-xs-6
+                img.img-responsive(src='#{this}.jpg')
+                input(type='hidden', value='#{this}')
       #player-selection.screen
         .row.text-center Select a Player
         br
         each players
           .row.text-center.player
             .btn.btn-default #{name}
+            input(type='hidden', value='#{id}')
           br
-          input(type='hidden', value='#{id}')
       #card-selection.screen
         .row.text-center Select a Card
         .row
