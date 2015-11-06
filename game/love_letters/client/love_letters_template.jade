@@ -5,12 +5,12 @@ template(name="love_letters")
         .row.text-center List of Cards
         each gameCard
           .row #{value} - #{name} (#{amount}) : #{shortDesc}
-      #played-cards.screen
+      #played-cards.screen(class="#{actionClass}")
         .row.text-center Played cards
         each playedCards
           img.row.center-block.img-responsive(src='#{this}.jpg', style='margin-bottom:-290px')
         .margin(style='min-height:290px')
-      #hand.screen(class="#{handClass}")
+      #hand.screen
         .row.text-center Cards in the hand
         .row
           each myCards
@@ -18,6 +18,11 @@ template(name="love_letters")
               .col-xs-6
                 img.img-responsive(src='#{this}.jpg')
                 input(type='hidden', value='#{this}')
+        with peek
+          br
+          .row.text-center.col-xs-6.col-xs-offset-3
+            | name: #{name}
+            img.img-responsive(src='#{card}.jpg')
       #player-selection.screen
         .row.text-center Select a Player
         br

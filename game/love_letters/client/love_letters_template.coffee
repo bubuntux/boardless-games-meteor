@@ -60,7 +60,7 @@ Template.love_letters.helpers
     Session.get('me')?.playedCards
   myCards: ->
     _.find(@players, (p) -> p.id is Meteor.userId()).cards
-  handClass: ->
+  actionClass: ->
     me = Session.get('me')
     if me?.protected
       return 'protected'
@@ -69,15 +69,20 @@ Template.love_letters.helpers
     if me?.cards.length is 0
       return 'out'
     return ''
+  peek: ->
+    me = Session.get 'me'
+    if me?.see
+      player =_.find(@players, (p) -> p.id is me.see)
+      if player
+        return name: player.name, card: player.cards[0]
+
 # TODO below
   cardCount: ->
     count = 0
     for card in Template.parentData().playedCards
       count++ if card is @.value
     count
-  peek: ->
-    me = Session.get 'me'
-    '(' + LoveLettersCards[@.cards[0] - 1].name + ')' if me?.see is @.id
+
 
 Template.love_letters.events
   'touchmove': (event) ->
