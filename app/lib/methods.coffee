@@ -11,5 +11,9 @@ Meteor.methods
     if board.players.length >= board.maxPlayers
       throw new Meteor.Error 'Game already full'
 
-    Boards.update {gameName, gameKey}, {$addToSet: {players: {id: user._id, name: user.username || _.first(user.emails).address}}},
+    name = user.username
+    if not name
+      email = _.first(user.emails).address
+      name = email.substring(0, email.indexOf('@'))
+    Boards.update {gameName, gameKey}, {$addToSet: {players: {id: user._id, name: name}}},
       (error) -> throw error if error
