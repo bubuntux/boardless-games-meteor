@@ -30,10 +30,11 @@ template(name="love_letters")
         br
         br
         each players
-          .row.text-center.player
-            .btn.btn-default #{name}
-            input(type='hidden', value='#{id}')
-          br
+          if hasCards
+            .row.text-center.player
+              .btn.btn-default #{name}
+              input(type='hidden', value='#{id}')
+            br
       #card-selection.screen
         .row.text-center Select a Card
         .row

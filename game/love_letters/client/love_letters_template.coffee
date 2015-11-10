@@ -81,7 +81,8 @@ Template.love_letters.helpers
       player = _.find(@players, (p) -> p.id is me.see)
       if player
         return name: player.name, card: player.cards[0]
-
+  hasCards: ->
+    @cards?.length > 0
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()
