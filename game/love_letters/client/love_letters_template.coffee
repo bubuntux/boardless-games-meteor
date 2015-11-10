@@ -65,10 +65,10 @@ Template.love_letters.helpers
     _.find(@players, (p) -> p.id is Meteor.userId()).cards
   actionClass: ->
     me = Session.get('me')
-    if me?.protected
-      return 'protected'
     if me?.cards.length > 1
       return 'turn'
+    if me?.protected
+      return 'protected'
     if me?.cards.length is 0
       return 'out'
     return ''

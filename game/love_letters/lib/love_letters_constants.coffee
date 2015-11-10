@@ -112,8 +112,9 @@ Meteor.methods
         player.protected = true
       when Prince.value
         if not otherPlayer.protected
-          otherPlayer.playedCards.push(otherPlayer.cards.pop())
-          if game.remainCards.length > 0
+          lastCard = otherPlayer.cards.pop()
+          otherPlayer.playedCards.push(lastCard)
+          if lastCard isnt Princess.value and game.remainCards.length > 0
             otherPlayer.cards = [game.remainCards.shift()]
       when King.value
         if not otherPlayer.protected
