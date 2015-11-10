@@ -20,15 +20,17 @@ Template.love_letters.onRendered ->
   _scroller = new IScroll('#screens',
     mouseWheel: true
     snap: '.screen'
+    momentum: false
   )
 
   if window.DeviceOrientationEvent
     window.addEventListener 'deviceorientation', (data)->
-      boardMode = data.beta < 50
+      boardMode = data.beta < 40
       if boardMode is _boardMode
         return
       if boardMode
         _scroller.scrollToElement '#played-cards'
+        _scroller.disable()
         if _myTurn()
           card = parseInt(_.first($('#hand .card.selected input'))?.value)
           if card
@@ -41,6 +43,7 @@ Template.love_letters.onRendered ->
                 _.each $('.card.selected'), (el) -> el.className = 'card'
                 _.each $('.btn.active'), (el) -> el.className = 'btn btn-default'
       else
+        _scroller.enable()
         _scroller.scrollToElement '#hand'
       _boardMode = boardMode
       console.log('algo') #_scroller.refresh()
@@ -75,7 +78,7 @@ Template.love_letters.helpers
   peek: ->
     me = Session.get 'me'
     if me?.see
-      player =_.find(@players, (p) -> p.id is me.see)
+      player = _.find(@players, (p) -> p.id is me.see)
       if player
         return name: player.name, card: player.cards[0]
 
@@ -91,10 +94,10 @@ Template.love_letters.events
     if _myTurn()
       _selectCard('#card-selection', event, template)
   'tap .player .btn': (event, template) ->
-    event.preventDefault();
+    event.preventDefault()
     if _myTurn()
       _selectPlayer(event, template)
   'click .player .btn': (event, template) -> # TODO remove?
-    event.preventDefault();
+    event.preventDefault()
     if _myTurn()
       _selectPlayer(event, template)

@@ -1,12 +1,20 @@
 @LoveLetters = new Mongo.Collection('love_letters')
-@Guard = value: 1, amount: 5, name: "Guard", shortDesc: "Guess a player's hand.", targetRequired: true
-@Priest = value: 2, amount: 2, name: "Priest", shortDesc: "Look at a hand.", targetRequired: true
-@Baron = value: 3, amount: 2, name: "Baron", shortDesc: "Compare hands; lower hand is out.", targetRequired: true
-@Handmaid = value: 4, amount: 2, name: "Handmaid", shortDesc: "Protection until your next turn."
-@Prince = value: 5, amount: 2, name: "Prince", shortDesc: "One player discards his or her hand.", validOnYourself: true
-@King = value: 6, amount: 1, name: "King", shortDesc: "Trade hands.", targetRequired: true
-@Countess = value: 7, amount: 1, name: "Countess", shortDesc: "Discard if caught with King or Prince."
-@Princess = value: 8, amount: 1, name: "Princess", shortDesc: "Lose if discarded."
+@Guard =
+  value: 1, amount: 5, name: "Guard", shortDesc: "Guess a player's hand.", targetRequired: true
+@Priest =
+  value: 2, amount: 2, name: "Priest", shortDesc: "Look at a hand.", targetRequired: true
+@Baron =
+  value: 3, amount: 2, name: "Baron", shortDesc: "Compare hands; lower hand is out.", targetRequired: true
+@Handmaid =
+  value: 4, amount: 2, name: "Handmaid", shortDesc: "Protection until your next turn."
+@Prince =
+  value: 5, amount: 2, name: "Prince", shortDesc: "One player discards his or her hand.", validOnYourself: true
+@King =
+  value: 6, amount: 1, name: "King", shortDesc: "Trade hands.", targetRequired: true
+@Countess =
+  value: 7, amount: 1, name: "Countess", shortDesc: "Discard if caught with King or Prince."
+@Princess =
+  value: 8, amount: 1, name: "Princess", shortDesc: "Lose if discarded."
 @LoveLettersCards = [Guard, Priest, Baron, Handmaid, Prince, King, Countess, Princess]
 
 _allCards = ->
@@ -121,8 +129,7 @@ Meteor.methods
         _.first(playersWithOneCard).rounds++
         game = _newGame(game.players)
       else
-        nextPlayer = _.find game.players, (p)-> p.order is player.order + 1
-        nextPlayer = _.find(game.players, (p)-> p.order is 0) if not nextPlayer
+        nextPlayer = _nextPlayer(playersWithOneCard, player.order)
         nextPlayer.cards.push game.remainCards.shift()
     else
       winner = _.max game.players, (p) -> _.first(p.cards)
@@ -132,3 +139,9 @@ Meteor.methods
 
     delete game._id
     LoveLetters.update gameKey, $set: game
+
+_nextPlayer = (players, currentOrder) ->
+  nextPlayers = _.filter players, (p)-> p.order > currentOrder
+  if nextPlayers?.length > 0
+    return _.min nextPlayers, (p)-> p.order
+  return _.min players, (p)-> p.order
