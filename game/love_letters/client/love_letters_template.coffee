@@ -62,7 +62,9 @@ Template.love_letters.helpers
   playedCards: ->
     Session.get('me')?.playedCards
   myCards: ->
-    _.find(@players, (p) -> p.id is Meteor.userId()).cards
+    Session.get('me')?cards
+  wonRounds: ->
+    Session.get('me')?.rounds
   actionClass: ->
     me = Session.get('me')
     if me?.cards.length > 1
