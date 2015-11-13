@@ -13,6 +13,7 @@ Package.describe({
 Package.onUse(function (api) {
 	api.versionsFrom('1.2.1');
 	api.use('coffeescript');
+	api.use('erasaur:meteor-lodash');
 
 	api.addFiles('dixit_common.coffee', ['server', 'client']);
 	api.addFiles('dixit_server.coffee', 'server');
@@ -21,7 +22,7 @@ Package.onUse(function (api) {
 		api.addAssets('img/' + i + '.jpg', 'client');
 	}
 
-
+	//TODO export
 });
 
 Package.onTest(function (api) {
