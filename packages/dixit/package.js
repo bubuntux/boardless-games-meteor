@@ -12,13 +12,14 @@ Package.describe({
 
 Package.onUse(function (api) {
 	api.versionsFrom('1.2.1');
-	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('erasaur:meteor-lodash');
+	api.use('random');
 
-	api.addFiles('dixit_common.coffee', ['server', 'client']);
-	api.addFiles('dixit_server.coffee', 'server');
-	api.addFiles('dixit_client.coffee', 'client');
-	for (var i = 1; i <= 450; i++) {
+	api.addFiles('dixit_common.js', ['server', 'client']);
+	api.addFiles('dixit_server.js', 'server');
+	api.addFiles('dixit_client.js', 'client');
+	for (var i = 1; i <= 450; i++) { //TODO get from common?
 		api.addAssets('img/' + i + '.jpg', 'client');
 	}
 
@@ -26,7 +27,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
-	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('dixit');
 	api.use('tinytest');
 
