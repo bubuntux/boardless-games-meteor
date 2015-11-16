@@ -8,3 +8,7 @@ const DixitDescription = {
 const MAX_CARDS = 450;
 const CARDS_PER_PLAYER = 6;
 const CARDS = _.range(1, MAX_CARDS);
+
+class Dixit {
+
+}
