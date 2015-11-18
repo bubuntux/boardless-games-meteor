@@ -27,6 +27,8 @@ Template.love_letters.onRendered ->
   if window.DeviceOrientationEvent
     window.addEventListener 'deviceorientation', (data)->
       boardMode = data.beta < 40
+      if _winner
+        Meteor.call('love_letters_restart', _gameId, not boardMode)
       if boardMode is _boardMode
         return
       if boardMode
@@ -46,8 +48,6 @@ Template.love_letters.onRendered ->
       else
         _scroller.enable()
         _scroller.scrollToElement '#hand'
-        if _winner
-          Meteor.call('love_letters_restart', _gameId, true)
       _boardMode = boardMode
       console.log('algo') #_scroller.refresh()
   else
