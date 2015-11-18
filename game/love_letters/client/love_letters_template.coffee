@@ -1,6 +1,7 @@
 _scroller = undefined
 _boardMode = false
 _gameId = undefined
+_winner = undefined
 
 _myTurn = -> Session.get 'myTurn'
 
@@ -45,6 +46,8 @@ Template.love_letters.onRendered ->
       else
         _scroller.enable()
         _scroller.scrollToElement '#hand'
+        if _winner
+          Meteor.call('love_letters_restart', _gameId, true)
       _boardMode = boardMode
       console.log('algo') #_scroller.refresh()
   else
@@ -67,6 +70,9 @@ Template.love_letters.helpers
     _.find(@players, (p) -> p.id is Meteor.userId())?.rounds
   actionClass: ->
     me = Session.get('me')
+    _winner = _.find(@players, (p) -> p.winner)
+    if _winner and _winner?.id is me?.id
+      return 'winner'
     if me?.cards.length > 1
       return 'turn'
     if me?.protected
@@ -87,6 +93,8 @@ Template.love_letters.helpers
         return name: player.name, card: player.cards[0]
   hasCards: ->
     @cards?.length > 0
+  winner: ->
+    _winner
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()

@@ -34,6 +34,7 @@ _newGame = (players) ->
     player.protected = false
     player.see = undefined
     player.dontHave = undefined
+    player.winner = false
   _.find(players, (p) -> p.order is 0).cards.push remainCards.shift()
   players: players
   remainCards: remainCards
@@ -51,6 +52,20 @@ _newGame = (players) ->
     LoveLetters.findOne(gameKey)
 
 Meteor.methods
+  love_letters_restart: (gameKey, ready) ->
+    game = LoveLetters.findOne gameKey
+    if not game
+      throw new Meteor.Error "Invalid game"
+    player = _.find game.players, (p) -> p.id is Meteor.userId()
+    if not player
+      throw  new Meteor.Error "You are not in this game"
+    player.ready = ready
+    if _.every(game.players, (p)-> p.ready)
+      _.each game.players, (p) -> p.rounds++ if p.winner
+      game = _newGame(game.players)
+    delete game._id
+    LoveLetters.update gameKey, $set: game
+
   love_letters_play: (gameKey, card, otherPlayerId, guessCard) ->
     check card, Number if card
     check otherPlayerId, String if otherPlayerId
@@ -127,17 +142,14 @@ Meteor.methods
     if game.remainCards.length > 0
       playersWithOneCard = _.filter(game.players, (p)-> p.cards.length is 1)
       if playersWithOneCard.length is 1
-        _.first(playersWithOneCard).rounds++
-        game = _newGame(game.players)
+        _.first(playersWithOneCard).winner = true
       else
         nextPlayer = _nextPlayer(playersWithOneCard, player.order)
         nextPlayer.cards.push game.remainCards.shift()
     else
       winner = _.max game.players, (p) -> _.first(p.cards)
       if winner
-        _.each(game.players, (p) -> p.rounds++ if _.first(p.cards) is _.first(winner.cards))
-        game = _newGame(game.players)
-
+        _.each(game.players, (p) -> p.winner = true if _.first(p.cards) is _.first(winner.cards))
     delete game._id
     LoveLetters.update gameKey, $set: game
 

@@ -7,6 +7,8 @@ template(name="love_letters")
           .row  --- #{value} - #{name} (#{amount}) : #{shortDesc}
       #played-cards.screen(class="#{actionClass}")
         .row.text-center  Remain Cards:#{remainCards} |  Won Rounds:#{wonRounds}
+        with winner
+          .row.text-center  Winner: #{name}
         .row.text-center  Played cards
         each playedCards
           img.row.center-block.img-responsive(src='#{this}.jpg', style='margin-bottom:-290px')
