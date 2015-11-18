@@ -1,11 +1,13 @@
 template(name="home")
-  .container.text-center
-    .row
+  .container-fluid
+    .form-group
+      label(for="nameInput") Select your game
       select.form-control.nameInput
         each gameOptions
           option(value="#{id}")
             | #{name}
-    .row
+    .form-group
+      label(for="keyInput") Enter your board name
       input.form-control.keyInput(type="text")
     .row
       button.col-xs-offset-1.col-xs-4.btn.btn-lg.btn-primary.btn-create(class="#{btnCreateClass}")
