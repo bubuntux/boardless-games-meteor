@@ -4,7 +4,7 @@ template(name="love_letters")
       #list-of-cards.screen
         .row.text-center List of Cards
         each gameCard
-          .row #{value} - #{name} (#{amount}) : #{shortDesc}
+          .row  --- #{value} - #{name} (#{amount}) : #{shortDesc}
       #played-cards.screen(class="#{actionClass}")
         .row.text-center Played cards     Won Rounds:#{wonRounds}
         each playedCards
