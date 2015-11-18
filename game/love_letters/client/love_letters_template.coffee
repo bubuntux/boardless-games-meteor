@@ -74,6 +74,8 @@ Template.love_letters.helpers
     if me?.cards.length is 0
       return 'out'
     return ''
+  remainCards: ->
+    @remainCards?.length
   dontHave: ->
     me = Session.get 'me'
     me?.dontHave
