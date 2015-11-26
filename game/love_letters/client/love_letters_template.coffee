@@ -1,6 +1,7 @@
 _scroller = undefined
 _boardMode = false
 _gameId = undefined
+_winner = undefined
 
 _myTurn = -> Session.get 'myTurn'
 
@@ -26,6 +27,8 @@ Template.love_letters.onRendered ->
   if window.DeviceOrientationEvent
     window.addEventListener 'deviceorientation', (data)->
       boardMode = data.beta < 40
+      if _winner
+        Meteor.call('love_letters_restart', _gameId, not boardMode)
       if boardMode is _boardMode
         return
       if boardMode
@@ -62,11 +65,14 @@ Template.love_letters.helpers
   playedCards: ->
     Session.get('me')?.playedCards
   myCards: ->
-    Session.get('me')?cards
+    _.find(@players, (p) -> p.id is Meteor.userId())?.cards
   wonRounds: ->
-    Session.get('me')?.rounds
+    _.find(@players, (p) -> p.id is Meteor.userId())?.rounds
   actionClass: ->
     me = Session.get('me')
+    _winner = _.find(@players, (p) -> p.winner)
+    if _winner and _winner?.id is me?.id
+      return 'winner'
     if me?.cards.length > 1
       return 'turn'
     if me?.protected
@@ -74,6 +80,8 @@ Template.love_letters.helpers
     if me?.cards.length is 0
       return 'out'
     return ''
+  remainCards: ->
+    @remainCards?.length
   dontHave: ->
     me = Session.get 'me'
     me?.dontHave
@@ -85,6 +93,8 @@ Template.love_letters.helpers
         return name: player.name, card: player.cards[0]
   hasCards: ->
     @cards?.length > 0
+  winner: ->
+    _winner
 Template.love_letters.events
   'touchmove': (event) ->
     event.preventDefault()

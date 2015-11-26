@@ -30,6 +30,10 @@
     background: darkgreen;
 }
 
+.winner {
+    background: yellow;
+}
+
 .card.selected img {
     border: lime;
     border-width: medium;
