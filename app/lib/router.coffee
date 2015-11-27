@@ -1,6 +1,4 @@
-Router.configure
-  layoutTemplate: 'layout'
-
+###
 Router.map ->
   @route 'home',
     path: '/'
@@ -17,3 +15,4 @@ Router.map ->
       @render 'join', data: ->
         board: board
   , name: 'join'
+###

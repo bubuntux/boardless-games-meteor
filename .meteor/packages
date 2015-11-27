@@ -8,9 +8,7 @@ iron:router
 coffeescript
 mquandalle:jade
 random
-accounts-password
-accounts-facebook
-accounts-ui
+accounts-friendly
 autopublish
 standard-minifiers
 meteor-base
@@ -26,3 +24,4 @@ ejson
 spacebars
 check
 reactive-var
+ecmascript
