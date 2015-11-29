@@ -4,7 +4,7 @@ Package.describe({
 	// Brief, one-line summary of the package.
 	summary: '',
 	// URL to the Git repository containing the source code for this package.
-	git: '',
+	git: '', //TODO publish as separate project
 	// By default, Meteor will default to using README.md for documentation.
 	// To avoid submitting documentation, set this field to null.
 	documentation: 'README.md'
@@ -12,15 +12,7 @@ Package.describe({
 
 Package.onUse(function (api) {
 	api.versionsFrom('1.2.1');
-	api.use('accounts-base');
-	api.imply('accounts-base');
+	api.use('accounts-password'); //TODO use base
+	api.use('erasaur:meteor-lodash'); //TODO remove
 	api.addFiles('accounts-friendly.js', 'client');
 });
-
-/*
-Package.onTest(function (api) {
-	api.use('tinytest');
-	api.use('accounts-friendly');
-	api.addFiles('accounts-friendly-tests.js');
-});
-*/

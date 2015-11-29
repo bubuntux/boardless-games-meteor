@@ -1,7 +1,8 @@
 <template name="layout">
   {{#if currentUser}}
     <div class="user">
-      <span> {{currentUser.username}} </span>
+      <span>id: {{currentUser._id}} </span>
+      <span>username: {{currentUser.username}} </span>
       <a href="#" class="logout">Logout</a>
     </div>
   {{/if}}

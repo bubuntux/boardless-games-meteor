@@ -1,20 +1,32 @@
-Meteor.loginWithFriendly = function (selector, callback) {
-	if (typeof selector != 'string')
+"use strict";
+Meteor.loginWithFriendly = function (username, callback) {
+	if (typeof username != 'string')
 		return;
-	var index = selector.indexOf('@');
-	if (index === -1)
-		selector = {username: selector, email: selector + '@blg.com'};
-	else
-		selector = {username: selector.substring(0, index), email: selector};
-	selector.profile = {friendly: true};
 
+	username = _.capitalize(_.snakeCase(username));
 	Accounts.callLoginMethod({
+		methodName: 'createUser',
 		methodArguments: [{
-			user: selector
+			username: username,
+			email: username + '@blg.com',
+			profile: {friendly: true},
+			password: username
 		}],
 		userCallback: function (error) {
 			if (error) {
-				callback && callback(error);
+				Accounts.callLoginMethod({
+					methodArguments: [{
+						user: {username: username},
+						password: username
+					}],
+					userCallback: function (error) {
+						if (error) {
+							callback && callback(error);
+						} else {
+							callback && callback();
+						}
+					}
+				});
 			} else {
 				callback && callback();
 			}
