@@ -1,0 +1,53 @@
+html, body {
+    background: #ddd;
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, Arial, Sans, sans-serif;
+}
+
+#home {
+    margin: 100px auto;
+    text-align: center;
+}
+
+#signin {
+    margin: 10px auto;
+    width: 400px;
+    border: 8px solid #333;
+    padding: 20px;
+    background: #fff;
+    text-align: left;
+}
+
+#signin p {
+    margin: 5px 0;
+}
+
+#signin label {
+    font-size: 14px;
+    display: block;
+    width: 150px;
+    text-align: right;
+    float: left;
+    margin-right: 5px;
+    padding-top: 2px;
+}
+
+#signin #user {
+    margin-left: 10px;
+    width: 200px;
+}
+
+#signin #enter {
+    display: block;
+    margin: 10px 0 0 160px;
+}
+
+#signin .error {
+    background: #c00;
+    margin: 0 0 10px 0;
+    padding: 5px;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
