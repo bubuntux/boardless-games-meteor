@@ -1,0 +1,10 @@
+<template name="layout">
+  {{#if currentUser}}
+    <div class="user">
+      <span> {{currentUser.username}} </span>
+      <a href="#" class="logout">Logout</a>
+    </div>
+  {{/if}}
+
+  {{> yield}}
+</template>

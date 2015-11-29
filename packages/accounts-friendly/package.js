@@ -17,8 +17,10 @@ Package.onUse(function (api) {
 	api.addFiles('accounts-friendly.js', 'client');
 });
 
+/*
 Package.onTest(function (api) {
 	api.use('tinytest');
 	api.use('accounts-friendly');
 	api.addFiles('accounts-friendly-tests.js');
 });
+*/
