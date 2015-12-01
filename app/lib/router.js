@@ -4,3 +4,9 @@ Router.route('/', {
 	layoutTemplate: 'layout',
 	template: 'home'
 });
+
+Router.route('/join', {
+	name: 'join',
+	layoutTemplate: 'layout',
+	template: 'join'
+});

@@ -1,3 +1,4 @@
+###
 Template.home.helpers
   btnCreateClass: ->
     'disabled' if not Meteor.user()
@@ -32,3 +33,4 @@ Template.home.events
       template.$('.btn-join').addClass('disabled')
     else
       template.$('.btn-join').removeClass('disabled')
+###
