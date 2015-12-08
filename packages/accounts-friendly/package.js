@@ -13,6 +13,6 @@ Package.describe({
 Package.onUse(function (api) {
 	api.versionsFrom('1.2.1');
 	api.use('accounts-password'); //TODO use base
-	api.use('erasaur:meteor-lodash'); //TODO remove
+	api.use('stevezhu:lodash'); //TODO remove
 	api.addFiles('accounts-friendly.js', 'client');
 });

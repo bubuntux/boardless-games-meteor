@@ -13,7 +13,7 @@ Package.describe({
 Package.onUse(function (api) {
 	api.versionsFrom('1.2.1');
 	api.use('ecmascript');
-	api.use('erasaur:meteor-lodash');
+	api.use('stevezhu:lodash');
 
 	api.addFiles('dixit_common.js', ['server', 'client']);
 	api.addFiles('dixit_server.js', 'server');
