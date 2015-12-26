@@ -14,7 +14,7 @@ Meteor.methods({
 		let boardId = user._id;
 		let board = {
 			_id: boardId,
-			name: user.username + "'s " + gameName + " game",
+			name: user.username + "'s game", //TODO
 			gameName: gameName,
 			players: [{id: user._id, name: user.username}],
 			minPlayers: GAME[gameName].minPlayers,

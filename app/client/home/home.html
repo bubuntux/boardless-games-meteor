@@ -15,8 +15,17 @@
     </span>
   </div>
 
-  <div>
-    <!--TODO available games-->
+  <div class="text-center">
+    {{#each this}} <!--todo boards-->
+      <div class="board" style="margin: 5px">
+        <a id="join" class="btn btn-default" href="/join/{{_id}}"> <!--TODO join-->
+          {{gameName}} <!--todo icon?-->
+          {{name}}
+          <br>
+          Join
+        </a>
+      </div>
+    {{/each}}
   </div>
 
 
