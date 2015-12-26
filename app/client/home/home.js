@@ -9,12 +9,10 @@ let _createGame = function (template) {
 	});
 };
 
-
 Template.home.events({
 	"click #create": function (event, template) {
 		event.preventDefault();
 		if (!Meteor.userId()) {
-			//TODO modal
 			template.$('#createGameModal').modal('show');
 			return;
 		}

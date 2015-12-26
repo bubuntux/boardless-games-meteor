@@ -3,7 +3,7 @@ Meteor.methods({
 	'createGame': function (gameName) {
 		check(gameName, String);
 		if (!gameName) {
-			throw new Meteor.Error("Invaid game");
+			throw new Meteor.Error("Invalid game");
 		}
 
 		let user = Meteor.user();
