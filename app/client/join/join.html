@@ -1,0 +1,24 @@
+<template name="join">
+  <div class="container-fluid text-center">
+    {{#each players}}
+      <div class="row" style="border-style: solid">
+        {{name}}
+      </div>
+    {{/each}}
+    <div class="row">
+      {{#if canStartTheGame}}
+        <div id="start" class="col-xs-offset-3 col-xs-6 btn btn-default">
+          Start
+        </div>
+      {{else}}
+        {{#if canJoin}}
+          <div id="join" class="col-xs-offset-3 col-xs-6 btn btn-default">
+            Join
+          </div>
+        {{else}}
+          Waiting for other players
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+</template>

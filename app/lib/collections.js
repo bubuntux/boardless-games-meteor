@@ -1,1 +1,1 @@
-Boards = new Mongo.Collection('boards');
+Boards = new Mongo.Collection('boards'); //TODO rename?

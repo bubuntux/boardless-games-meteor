@@ -17,8 +17,8 @@ Meteor.methods({
 			name: user.username + "'s game", //TODO
 			gameName: gameName,
 			players: [{id: user._id, name: user.username}],
-			minPlayers: GAME[gameName].minPlayers,
-			maxPlayers: GAME[gameName].maxPlayers
+			minPlayers: GAME[gameName].minPlayers, //TODO ??
+			maxPlayers: GAME[gameName].maxPlayers  //TODO ??
 		};
 		Boards.remove(boardId, function (error) {
 			if (error) {
@@ -31,5 +31,32 @@ Meteor.methods({
 			}
 		});
 		return boardId;
+	},
+
+	'joinGame': function (gameId) {
+		check(gameId, String);
+		let user = Meteor.user();
+		if (!user) {
+			throw new Meteor.Error("not-authorized");
+		}
+		let board = Boards.findOne({_id: gameId});
+		if (!board) {
+			throw new Meteor.Error('Game does not exist');
+		}
+		if (board.players.length >= board.maxPlayers) {
+			throw new Meteor.Error('Game already full');
+		}
+		Boards.update({_id: gameId}, {
+			$addToSet: {
+				players: {
+					id: user._id, name: user.username
+				}
+			}
+		}, function (error) {
+			if (error) {
+				throw error;
+			}
+			Boards.remove(user._id);
+		});
 	}
 });

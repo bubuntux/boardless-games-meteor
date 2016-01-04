@@ -5,7 +5,7 @@ let _createGame = function (template) {
 		if (error) {
 			throw error;
 		}
-		Router.go('join');
+		Router.go('game', {id: boardId});
 	});
 };
 
@@ -13,13 +13,13 @@ Template.home.events({
 	"click #create": function (event, template) {
 		event.preventDefault();
 		if (!Meteor.userId()) {
-			template.$('#createGameModal').modal('show');
+			template.$('#loginModal').modal('show');
 			return;
 		}
 		_createGame(template);
 	},
 
-	"click #loginAndCreate": function (event, template) {
+	"click #login": function (event, template) {
 		event.preventDefault();
 		var username = template.$('#username').val();
 		Meteor.loginWithFriendly(username, function (error) {
@@ -27,7 +27,14 @@ Template.home.events({
 				alert(error);
 				return;
 			}
-			_createGame(template);
+			template.$('#loginModal').modal('hide');
 		});
+	},
+
+	"click #join": function (event, template) {
+		if (!Meteor.userId()) {
+			template.$('#loginModal').modal('show');
+			event.preventDefault();
+		}
 	}
 });

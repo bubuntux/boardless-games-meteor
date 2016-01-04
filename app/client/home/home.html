@@ -17,8 +17,8 @@
 
   <div class="text-center">
     {{#each this}} <!--todo boards-->
-      <div class="board" style="margin: 5px">
-        <a id="join" class="btn btn-default" href="/join/{{_id}}"> <!--TODO join-->
+      <div class="board" style="margin: 10px">
+        <a id="join" class="btn btn-default" href="/game/{{_id}}"> <!--TODO join-->
           {{gameName}} <!--todo icon?-->
           {{name}}
           <br>
@@ -28,15 +28,11 @@
     {{/each}}
   </div>
 
-
-  <div id="createGameModal" class="modal fade" role="dialog">
+  <div id="loginModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title text-center">Creating Game</h4>
-        </div>
         <div class="modal-body">
-          <p>In order to create a game you need a username, please provide one</p>
+          <p>Hold on buddy, first you need to provide a username</p>
 
           <div class="form-group">
             <label for="username" class="control-label">Username:</label>
@@ -44,7 +40,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="loginAndCreate" class="btn btn-default" type="button">Create</button>
+          <button id="login" class="btn btn-default" type="button">Login</button>
           <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
         </div>
       </div>
