@@ -1,7 +1,8 @@
 "use strict";
 Template.join.helpers({
 	canStartTheGame: function () {
-		return Meteor.userId() === this._id;
+		return Meteor.userId() === this._id &&
+			this.players.length >= this.minPlayers && this.players.length <= this.maxPlayers;
 	},
 	canJoin: function () {
 		return !_.find(this.players, function (player) {
@@ -15,13 +16,17 @@ Template.join.events({
 		event.preventDefault();
 		Meteor.call('joinGame', this._id, function (error) {
 			if (error) {
-				throw error;
+				alert(error);
 			}
 		});
 	},
 
 	'click #start': function (event) {
 		event.preventDefault();
-
+		Meteor.call('startGame', function (error) {
+			if (error) {
+				alert(error);
+			}
+		});
 	}
 });

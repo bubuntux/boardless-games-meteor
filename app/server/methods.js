@@ -58,5 +58,19 @@ Meteor.methods({
 			}
 			Boards.remove(user._id);
 		});
+	},
+
+	'startGame': function () {
+		let gameId = Meteor.userId();
+		if (!gameId) {
+			throw new Meteor.Error("not-authorized");
+		}
+		let board = Boards.findOne({_id: gameId});
+		if (!board) {
+			throw new Meteor.Error('Game does not exist');
+		}
+
+
+		Boards.update(gameId, {$set: {started: true}});
 	}
 });

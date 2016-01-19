@@ -10,6 +10,7 @@ binary-heap@1.0.4
 blaze@2.1.3
 blaze-html-templates@1.0.1
 blaze-tools@1.0.4
+blg-core@0.0.1
 boilerplate-generator@1.0.4
 caching-compiler@1.0.0
 caching-html-compiler@1.0.2
@@ -77,12 +78,13 @@ spacebars@1.0.7
 spacebars-compiler@1.0.7
 srp@1.0.4
 standard-minifiers@1.0.2
-stevezhu:lodash@3.10.1
+stevezhu:lodash@4.0.0
 templating@1.1.5
 templating-tools@1.0.0
 tracker@1.0.9
 ui@1.0.8
 underscore@1.0.4
+uno@0.0.1
 url@1.0.5
 webapp@1.2.3
 webapp-hashing@1.0.5

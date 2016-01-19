@@ -38,3 +38,9 @@ Template.home.events({
 		}
 	}
 });
+
+Template.home.helpers({
+	display : function(){
+		return Package["uno"].unoSome;
+	}
+});
