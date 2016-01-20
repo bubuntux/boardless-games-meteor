@@ -17,14 +17,25 @@ Package.onUse(function (api) {
 
 	api.addFiles('uno_client.js');
 
+	['blue', 'green', 'red', 'yellow'].forEach(function (color) {
+		for (var i = 0; i <= 9; i++) {
+			api.addAssets('img/' + color + '/' + i + '.png', 'client');
+		}
+		api.addAssets('img/' + color + '/+2.png', 'client');
+		api.addAssets('img/' + color + '/skip.png', 'client');
+		api.addAssets('img/' + color + '/reverse.png', 'client');
+	});
+	api.addAssets('img/+4.png', 'client');
+	api.addAssets('img/any.png', 'client');
+
 	api.export('unoSome');
 });
 
 /*
-Package.onTest(function (api) {
-	api.use('ecmascript');
-	api.use('tinytest');
-	api.use('uno');
-	api.addFiles('uno-tests.js');
-});
-*/
+ Package.onTest(function (api) {
+ api.use('ecmascript');
+ api.use('tinytest');
+ api.use('uno');
+ api.addFiles('uno-tests.js');
+ });
+ */
