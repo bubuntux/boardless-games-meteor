@@ -15,7 +15,7 @@ Package.onUse(function (api) {
 
 	api.use('blg-core');
 
-	api.addFiles('uno_client.js');
+	//api.addFiles('uno_client.js');
 
 	['blue', 'green', 'red', 'yellow'].forEach(function (color) {
 		for (var i = 0; i <= 9; i++) {
@@ -25,10 +25,10 @@ Package.onUse(function (api) {
 		api.addAssets('img/' + color + '/skip.png', 'client');
 		api.addAssets('img/' + color + '/reverse.png', 'client');
 	});
-	api.addAssets('img/+4.png', 'client');
-	api.addAssets('img/any.png', 'client');
+	api.addAssets('img/black/+4.png', 'client');
+	api.addAssets('img/black/any.png', 'client');
 
-	api.export('unoSome');
+	//api.export('unoSome');
 });
 
 /*
