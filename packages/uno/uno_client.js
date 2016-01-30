@@ -34,5 +34,10 @@ startGame = function (game) {
 };
 
 playCard = function (card) {
-
+	let userId = Meteor.userId();
+	if (!userId) {
+		throw new Meteor.Error("not-authorized");
+	}
+	let game; //TODO get game
+	
 };
